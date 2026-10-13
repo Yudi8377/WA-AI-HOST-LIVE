@@ -35,3 +35,12 @@ Urutan implementasi: simulator → core tenant/inbox → WhatsApp Business Platf
 
 ## Quality gates
 GitHub Actions memeriksa lint/typecheck/build. Pemeriksaan itu bukan pengganti uji browser, security review, uji webhook, atau verifikasi izin platform. Jangan menyimpan token/API key di source code atau issue publik.
+
+
+## Deployment status (2026-10-14)
+
+- The dashboard builds as a static Next.js export for GitHub Pages.
+- The GitHub Actions workflow publishes a build artifact on each push. Automatic Pages deployment is gated behind the repository variable `PAGES_ENABLED=true` because the connected automation token cannot create the repository Pages site. To go live, a repository admin must enable **Settings → Pages → Build and deployment → GitHub Actions**, then set the Actions variable `PAGES_ENABLED` to `true`.
+- A development-only Neon Function health endpoint is deployed at [WA AI HOST LIVE health](https://br-quiet-lake-b3f99jd3-health.compute.c-4.ap-southeast-1.aws.neon.tech/). It reports service health only; it does not mean messaging channels are connected.
+- Neon Managed Better Auth is enabled on the development branch only. Production/default branch has not been migrated or connected to application traffic.
+- Neon development branch: `wa-ai-host-live-dev`. Do not place production data or real customer information in it.
