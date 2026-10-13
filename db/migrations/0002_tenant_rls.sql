@@ -25,17 +25,16 @@ CREATE POLICY tenant_isolation ON memberships
   USING (tenant_id = app_current_tenant_id())
   WITH CHECK (tenant_id = app_current_tenant_id());
 
+-- app_users is the global identity map used during sign-in/provisioning.
+-- RLS is enabled but intentionally not forced: the trusted server DB owner must
+-- be able to resolve identities and create the first membership. Never expose
+-- unrestricted app_users queries through public API routes.
 ALTER TABLE app_users ENABLE ROW LEVEL SECURITY;
-ALTER TABLE app_users FORCE ROW LEVEL SECURITY;
+ALTER TABLE app_users NO FORCE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS tenant_members_only ON app_users;
 CREATE POLICY tenant_members_only ON app_users
+  FOR SELECT
   USING (EXISTS (
-    SELECT 1 FROM memberships m
-    WHERE m.user_id = app_users.id
-      AND m.tenant_id = app_current_tenant_id()
-      AND m.status = 'active'
-  ))
-  WITH CHECK (EXISTS (
     SELECT 1 FROM memberships m
     WHERE m.user_id = app_users.id
       AND m.tenant_id = app_current_tenant_id()
