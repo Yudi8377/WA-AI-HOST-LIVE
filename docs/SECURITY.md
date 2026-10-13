@@ -31,3 +31,8 @@
 
 ## Launch blockers
 No production launch before auth/session implementation, tenant-isolation tests, webhook signature tests, secret management, retention policy, backups, monitoring, rate limits, abuse tests and end-to-end verification of one official channel.
+## Known development-tool advisory
+
+The October 2026 full dependency-tree audit flags GHSA-vfj7-8cjw-p6xm in the transitive development dependency `braces@3.0.3`, pulled through `eslint-config-next` → `@next/eslint-plugin-next` → `fast-glob` → `micromatch`. The advisory currently lists no patched release: https://github.com/advisories/GHSA-vfj7-8cjw-p6xm. Do not use `npm audit fix --force` here because npm proposes a breaking downgrade of the Next.js ESLint configuration.
+
+The current CI gate uses `npm audit --omit=dev --audit-level=high` and passed for production dependencies after upgrading to Next.js 16.4.0. This is a scoped decision, not a claim that the entire development dependency tree has zero advisories. Keep the issue visible, review it periodically, and remove the exception from this note once upstream remediation is available.
