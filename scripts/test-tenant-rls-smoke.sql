@@ -1,6 +1,13 @@
--- Smoke-test that a nonexistent tenant context cannot read tenant-scoped rows.
--- Run only after migration 0002 on a development branch. Read-only except for
--- transaction-local session configuration; ROLLBACK leaves no database changes.
+-- Run only as a database role with rolbypassrls = false.
+-- The Neon owner role has BYPASSRLS, so running this under the owner is not a valid RLS test.
+-- Run only after migration 0002 on a development branch.
+DO $$
+BEGIN
+  IF (SELECT rolbypassrls FROM pg_roles WHERE rolname = current_user) THEN
+    RAISE EXCEPTION 'Invalid RLS test role: current_user has BYPASSRLS. Use a NOBYPASSRLS runtime role.';
+  END IF;
+END $$;
+
 BEGIN;
 SELECT set_config('app.tenant_id', '00000000-0000-4000-8000-000000000000', true)
   AS test_tenant_context;
