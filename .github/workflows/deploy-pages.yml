@@ -25,7 +25,7 @@ jobs:
         with:
           node-version: 22
       - name: Install dependencies
-        run: npm install
+        run: npm install --no-audit --no-fund
       - name: Lint
         run: npm run lint
       - name: Typecheck
@@ -34,16 +34,26 @@ jobs:
         run: npm run build
         env:
           GITHUB_PAGES: "true"
+      - name: Upload static artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: wa-ai-host-live-static-site
+          path: out
+          if-no-files-found: error
+          retention-days: 14
       - name: Configure Pages
+        if: ${{ vars.PAGES_ENABLED == 'true' }}
         uses: actions/configure-pages@v5
         with:
-          enablement: true
-      - name: Upload static artifact
+          enablement: false
+      - name: Upload Pages artifact
+        if: ${{ vars.PAGES_ENABLED == 'true' }}
         uses: actions/upload-pages-artifact@v3
         with:
           path: out
 
   deploy:
+    if: ${{ vars.PAGES_ENABLED == 'true' }}
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
