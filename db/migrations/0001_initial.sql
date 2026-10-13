@@ -94,7 +94,7 @@ CREATE TABLE IF NOT EXISTS agent_runs (
  latency_ms integer CHECK (latency_ms IS NULL OR latency_ms >= 0), policy_result text,
  source_ids jsonb NOT NULL DEFAULT '[]'::jsonb, error_code text,
  created_at timestamptz NOT NULL DEFAULT now(), completed_at timestamptz,
- FOREIGN KEY (tenant_id,conversation_id) REFERENCES conversations(tenant_id,id) ON DELETE SET NULL
+ FOREIGN KEY (tenant_id,conversation_id) REFERENCES conversations(tenant_id,id) ON DELETE CASCADE
 );
 CREATE INDEX IF NOT EXISTS agent_runs_tenant_created_idx ON agent_runs(tenant_id,created_at DESC);
 CREATE TABLE IF NOT EXISTS webhook_events (
