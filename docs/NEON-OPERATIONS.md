@@ -21,9 +21,13 @@ The application source of truth is GitHub and PostgreSQL is Neon. Do not add Sup
 - [x] Verified a cross-tenant customer insert is rejected with PostgreSQL's row-level security policy error; test fixtures were cleaned up.
 - [x] GitHub Actions quality checks passed for commit `3b44aa629845f108dc891d94042ced1149408d1e`.
 - [ ] Create/configure the actual application database login with `NOBYPASSRLS` and least-privilege grants. The current Neon owner role has `BYPASSRLS`; it must not be used by public request handlers as the runtime role.
-- [ ] Implement and verify a trusted authentication/session provider.
-- [ ] Deploy a server runtime or approved Neon-native backend path and configure server-only secrets.
-- [ ] Test official channel adapters end-to-end.
+- [x] Enabled Neon Managed Better Auth on the development branch and allow-listed the GitHub Pages origin for future UI integration; no auth UI is wired into the dashboard yet.
+- [x] Deployed a development-only Neon Function health endpoint: https://br-quiet-lake-b3f99jd3-health.compute.c-4.ap-southeast-1.aws.neon.tech/ (deployment status is completed; external HTTP invocation could not be verified by the available fetch tool).
+- [ ] Create/configure a real application database login with NOBYPASSRLS and least-privilege grants; the current Neon owner role has BYPASSRLS and must not be used by public request handlers.
+- [ ] Integrate the Neon Auth SDK into the dashboard and verify sign-up/sign-in/session behavior.
+- [ ] Configure GitHub Pages once in repository Settings → Pages → Build and deployment → GitHub Actions, then set the repository Actions variable PAGES_ENABLED=true. The automation token cannot create the Pages site itself; the workflow builds and uploads an artifact while deployment is gated.
+- [ ] Implement tenant-aware persistent inbox APIs and test them end-to-end.
+- [ ] Connect and test official channel adapters end-to-end.
 
 ## Runtime authorization contract
 
