@@ -10710,3 +10710,14 @@
 .opw-site .opw-footer-links a:hover{color:#fff;text-decoration:underline}
 .opw-site .opw-footer-note{margin-top:1.25rem;color:#b8d9c4;font-size:.75rem;line-height:1.7}
 @media(max-width:767.98px){.opw-site .masthead .masthead-heading{font-size:clamp(2.8rem,12vw,4.3rem);line-height:1.02}.opw-site .masthead .masthead-subheading{font-size:clamp(1.3rem,6vw,2rem)}.opw-site section .p-5{padding:1.4rem!important}.opw-site .opw-cta-band{padding:3.5rem 0}}
+
+.opw-site .opw-steps-section{background:#f4f8f5;color:#17352a}
+.opw-site .opw-step-card{border:1px solid #dce9df;border-radius:1rem;background:#fff;box-shadow:0 8px 25px #0b51390a}
+.opw-site .opw-step-number{display:inline-flex;align-items:center;justify-content:center;width:3rem;height:3rem;border-radius:50%;background:#e3f4e8;color:#146b49;font-weight:900}
+.opw-site .opw-feature-section:nth-of-type(even){background:#fff}
+.opw-site .opw-feature-section:nth-of-type(odd){background:#fbfdfb}
+.opw-site .opw-platform-intro{padding-top:1rem;padding-bottom:1rem}
+.opw-site .navbar-custom .navbar-nav .nav-item .nav-link{font-weight:700}
+.opw-site .navbar-custom .navbar-nav .nav-item .nav-link:hover{color:#d4f5df}
+@media(max-width:991.98px){.opw-site .navbar-custom .navbar-collapse{padding:1rem 0 1.3rem}.opw-site .navbar-custom .navbar-nav{align-items:stretch!important}.opw-site .navbar-custom .navbar-nav .nav-link{padding:.7rem 0}.opw-site .masthead{padding-top:calc(8rem + 55px);padding-bottom:7rem}.opw-site .masthead .masthead-heading{font-size:4rem}.opw-site .masthead .masthead-subheading{font-size:2rem}}
+@media(max-width:575.98px){.opw-site .masthead{padding-top:calc(7rem + 55px);padding-bottom:6rem}.opw-site .masthead .masthead-heading{font-size:3rem}.opw-site .masthead .masthead-subheading{font-size:1.5rem}.opw-site .aptinusa-eyebrow{font-size:.62rem;letter-spacing:.06em}.opw-site .opw-section-copy{font-size:1rem}}
