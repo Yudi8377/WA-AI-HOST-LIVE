@@ -31,6 +31,8 @@ jobs:
         run: npm run check:health-function
       - name: Workspace safety and UX contract checks
         run: npm run check:workspace-safety
+      - name: WhatsApp Cloud API adapter contract tests
+        run: npm run check:whatsapp-adapter
       - name: Typecheck
         run: npm run typecheck
       - name: Lint
