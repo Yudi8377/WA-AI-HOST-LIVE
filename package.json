@@ -11,7 +11,8 @@
     "check:security-migration": "node scripts/check-security-migration.mjs",
     "check:health-function": "node scripts/check-health-function.mjs",
     "check:workspace-safety": "node scripts/check-workspace-safety.mjs",
-    "check:whatsapp-adapter": "node scripts/test-whatsapp-adapter.mjs"
+    "check:whatsapp-adapter": "node scripts/test-whatsapp-adapter.mjs",
+    "check:whatsapp-migration": "node scripts/check-whatsapp-migration.mjs"
   },
   "dependencies": {
     "next": "^16.4.0",
