@@ -1,8 +1,9 @@
 "use client";
+/* eslint-disable @next/next/no-img-element */
 
 import Link from "next/link";
 import { useState } from "react";
-import { ArrowRight, Bot, Boxes, BrainCircuit, CheckCircle2, LockKeyhole, Menu, MessageSquareText, ShieldCheck, Workflow, X } from "lucide-react";
+import { ArrowRight, Bot, BrainCircuit, CheckCircle2, LockKeyhole, Menu, MessageSquareText, ShieldCheck, Workflow, X } from "lucide-react";
 
 /* Adapted from Start Bootstrap One Page Wonder (MIT), retaining its original page structure. */
 const sections = [
