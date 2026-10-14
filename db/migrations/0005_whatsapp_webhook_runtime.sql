@@ -28,7 +28,6 @@ REVOKE ALL ON FUNCTION app_private.resolve_whatsapp_channel(text) FROM PUBLIC;
 DO $grant$
 BEGIN
   IF EXISTS (SELECT 1 FROM pg_catalog.pg_roles WHERE rolname = 'wa_app_runtime') THEN
-    ALTER ROLE wa_app_runtime NOBYPASSRLS;
     GRANT USAGE ON SCHEMA public, app_private TO wa_app_runtime;
     GRANT EXECUTE ON FUNCTION app_private.resolve_whatsapp_channel(text) TO wa_app_runtime;
     GRANT EXECUTE ON FUNCTION public.app_current_tenant_id() TO wa_app_runtime;
