@@ -31,7 +31,7 @@ DO $grant$
 BEGIN
   IF EXISTS (SELECT 1 FROM pg_catalog.pg_roles WHERE rolname = 'wa_webhook_runtime')
      AND EXISTS (SELECT 1 FROM pg_catalog.pg_roles WHERE rolname = 'wa_app_runtime_safe') THEN
-    GRANT wa_app_runtime_safe TO wa_webhook_runtime;
+    GRANT wa_app_runtime_safe TO wa_webhook_runtime WITH INHERIT FALSE;
     GRANT USAGE ON SCHEMA public, app_private TO wa_app_runtime_safe;
     GRANT EXECUTE ON FUNCTION app_private.resolve_whatsapp_channel(text) TO wa_app_runtime_safe;
     GRANT EXECUTE ON FUNCTION public.app_current_tenant_id() TO wa_app_runtime_safe;
