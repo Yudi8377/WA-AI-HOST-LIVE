@@ -5,6 +5,8 @@ import { NextResponse } from "next/server";
  * Real runtime health checks belong to the separately deployed Neon function.
  * This file must remain build-time static because next.config.ts uses output: "export".
  */
+export const dynamic = "force-static";
+
 export async function GET() {
   return NextResponse.json({
     service: "aptinusa-web",
