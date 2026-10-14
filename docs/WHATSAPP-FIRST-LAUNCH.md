@@ -62,3 +62,9 @@ A serverless Node handler now lives at `api/whatsapp-webhook.ts` for a Node-capa
 - acknowledges unknown/unconnected phone IDs without storing customer content.
 
 The database runtime credential must be dedicated and least-privileged. Before enabling this endpoint, verify the selected Neon role does not bypass RLS, verify all grants/policies with that exact role, and test cross-tenant isolation. If the role cannot satisfy those conditions, do not enable the webhook until a suitable runtime credential is provisioned.
+
+## Development database verification (2026-10-15)
+
+On the Neon development branch, the additive WhatsApp preferences table is present with both RLS and FORCE RLS enabled. The channel resolver and grants were applied. A query executed as the dedicated login role after `SET LOCAL ROLE wa_app_runtime_safe` confirmed the effective role has `rolbypassrls=false` and sees zero customer rows when no tenant context is set. The production branch has **not** received these WhatsApp migrations or runtime roles.
+
+The migration expects the pre-provisioned `wa_app_runtime_safe` NOLOGIN/NOBYPASSRLS role and a `wa_webhook_runtime` login role. Provision and test both on the intended branch before running the migration; every transaction must switch to the safe role before touching application tables.
