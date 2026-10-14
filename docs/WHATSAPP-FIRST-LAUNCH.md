@@ -50,3 +50,15 @@ A real launch requires a Meta Business Portfolio, a WhatsApp Business Account an
 - [ ] Out-of-window free-form reply is blocked; approved template path tested separately.
 - [ ] Tenant isolation, opt-out, rate limiting, retries and incident rollback tested.
 - [ ] Privacy, support, pricing and customer onboarding materials approved.
+
+## Webhook runtime implementation
+
+A serverless Node handler now lives at `api/whatsapp-webhook.ts` for a Node-capable deployment. It is intentionally disabled unless `WHATSAPP_WEBHOOK_ENABLED=true`; GitHub Pages remains a static frontend and does not execute this handler. The handler:
+
+- checks the Meta signature before parsing JSON and limits request bodies to 1 MiB;
+- resolves the phone-number ID through a server-side database function, requiring exactly one connected tenant mapping;
+- persists inbound messages, customer/conversation links, service-window timestamps and privacy-minimized audit events in a transaction;
+- uses provider-event idempotency and returns generic errors without logging payloads;
+- acknowledges unknown/unconnected phone IDs without storing customer content.
+
+The database runtime credential must be dedicated and least-privileged. Before enabling this endpoint, verify the selected Neon role does not bypass RLS, verify all grants/policies with that exact role, and test cross-tenant isolation. If the role cannot satisfy those conditions, do not enable the webhook until a suitable runtime credential is provisioned.
