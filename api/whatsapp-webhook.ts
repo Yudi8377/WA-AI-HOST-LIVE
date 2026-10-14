@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 import type { IncomingMessage, ServerResponse } from "node:http";
 import postgres from "postgres";
+import type { TransactionSql } from "postgres";
 import {
   parseWhatsAppWebhook,
   verifyWhatsAppChallenge,
@@ -47,6 +48,14 @@ function database() {
   return db;
 }
 
+async function enforceSafeDatabaseRole(tx: TransactionSql) {
+  await tx`SET LOCAL ROLE wa_app_runtime_safe`;
+  const rows = await tx`select current_user as role, (select rolbypassrls from pg_roles where rolname = current_user) as bypass_rls`;
+  if (rows.length !== 1 || rows[0].role !== "wa_app_runtime_safe" || rows[0].bypass_rls !== false) {
+    throw new Error("UNSAFE_DATABASE_ROLE");
+  }
+}
+
 function hashPayload(rawBody: string) {
   return createHash("sha256").update(rawBody, "utf8").digest("hex");
 }
@@ -54,7 +63,7 @@ function hashPayload(rawBody: string) {
 async function persistInbound(message: ReturnType<typeof parseWhatsAppWebhook>["messages"][number], payloadHash: string) {
   const sql = database();
   return sql.begin(async (tx) => {
-    await tx`SET LOCAL ROLE wa_app_runtime_safe`;
+    await enforceSafeDatabaseRole(tx);
     // This SECURITY DEFINER resolver returns a tenant only for one unambiguous,
     // active WhatsApp phone number. Caller-supplied tenant IDs are never trusted.
     const matches = await tx`select tenant_id, channel_connection_id
@@ -137,7 +146,7 @@ async function persistInbound(message: ReturnType<typeof parseWhatsAppWebhook>["
 async function persistStatus(status: ReturnType<typeof parseWhatsAppWebhook>["statuses"][number], payloadHash: string) {
   const sql = database();
   return sql.begin(async (tx) => {
-    await tx`SET LOCAL ROLE wa_app_runtime_safe`;
+    await enforceSafeDatabaseRole(tx);
     const matches = await tx`select tenant_id from app_private.resolve_whatsapp_channel(${status.phoneNumberId})`;
     if (matches.length !== 1) return { accepted: false, duplicate: false };
     const tenantId = String(matches[0].tenant_id);
