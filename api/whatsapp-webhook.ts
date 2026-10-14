@@ -41,8 +41,7 @@ function database() {
       max: 1,
       idle_timeout: 10,
       connect_timeout: 5,
-      prepare: false,
-      application_name: "wa-ai-host-live-whatsapp-webhook"
+      prepare: false
     });
   }
   return db;
