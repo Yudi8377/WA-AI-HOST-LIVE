@@ -27,6 +27,8 @@ jobs:
         run: npm run check:security-migration
       - name: Agent network security tests
         run: node scripts/check-agent-network.mjs
+      - name: Production health function contract tests
+        run: npm run check:health-function
       - name: Typecheck
         run: npm run typecheck
       - name: Lint
