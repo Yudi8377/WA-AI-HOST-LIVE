@@ -24,7 +24,8 @@ The application source of truth is GitHub and PostgreSQL is Neon. Do not add Sup
 - [x] Enabled Neon Managed Better Auth on the development branch and allow-listed the GitHub Pages origin for future UI integration; no auth UI is wired into the dashboard yet.
 - [x] Deployed a development-only Neon Function health endpoint: https://br-quiet-lake-b3f99jd3-health.compute.c-4.ap-southeast-1.aws.neon.tech/ (deployment status is completed; external HTTP invocation could not be verified by the available fetch tool).
 - [ ] Integrate the Neon Auth SDK into the dashboard and verify sign-up/sign-in/session behavior.
-- [ ] Configure GitHub Pages once in repository Settings → Pages → Build and deployment → GitHub Actions, then set the repository Actions variable PAGES_ENABLED=true. The automation token cannot create the Pages site itself; the workflow builds and uploads an artifact while deployment is gated.
+- [x] Deployed a self-contained interactive preview dashboard on Neon Functions: https://br-quiet-lake-b3f99jd3-dashboard.compute.c-4.ap-southeast-1.aws.neon.tech/ . It uses synthetic in-memory data and is not a real inbox.
+- [ ] Enable GitHub Pages manually in repository Settings → Pages → Build and deployment → GitHub Actions. The latest workflow successfully built and uploaded the static export, but `actions/configure-pages` was rejected with `Resource not accessible by integration`; this is a GitHub permission/site-activation blocker, not a build failure.
 - [ ] Implement tenant-aware persistent inbox APIs and test them end-to-end.
 - [ ] Connect and test official channel adapters end-to-end.
 
