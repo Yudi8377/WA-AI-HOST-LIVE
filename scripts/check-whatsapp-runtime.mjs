@@ -17,9 +17,9 @@ for (const pattern of [
 
 for (const pattern of [
   /WHATSAPP_WEBHOOK_ENABLED !== "true"/,
-  /SET LOCAL ROLE wa_app_runtime_safe/g,
+  /SET LOCAL ROLE wa_app_runtime_safe/,
   /UNSAFE_DATABASE_ROLE/,
-  /bypass_rls !== false/
+  /bypass_rls !== false/,
   /verifyWhatsAppSignature\(rawBody/,
   /INVALID_WEBHOOK_SIGNATURE/,
   /MAX_BODY_BYTES/,
