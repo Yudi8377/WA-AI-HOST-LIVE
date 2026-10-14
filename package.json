@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "check:security-migration": "node scripts/check-security-migration.mjs"
+    "check:security-migration": "node scripts/check-security-migration.mjs",
+    "test:inbox-api": "node scripts/test-inbox-api.mjs",
+    "test:whatsapp-adapter": "node scripts/test-whatsapp-adapter.mjs"
   },
   "dependencies": {
     "next": "^16.4.0",
