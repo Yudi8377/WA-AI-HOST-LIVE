@@ -142,7 +142,7 @@ async function persistStatus(status: ReturnType<typeof parseWhatsAppWebhook>["st
     const tenantId = String(matches[0].tenant_id);
     await tx`select set_config('app.tenant_id', ${tenantId}, true)`;
 
-    const eventId = ${"status"} + ":" + status.providerMessageId + ":" + status.status;
+    const eventId = "status:" + status.providerMessageId + ":" + status.status;
     const inserted = await tx`insert into webhook_events
       (tenant_id, provider, provider_event_id, event_type, status, payload_hash, processed_at)
       values (${tenantId}::uuid, 'whatsapp', ${eventId}, 'delivery_status', 'processed', ${payloadHash}, now())
