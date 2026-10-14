@@ -27,5 +27,12 @@ Last checked: 2026-10-14
 - Run cross-tenant isolation tests on a disposable branch using the non-owner runtime role.
 - Complete and test subscription entitlements and each official channel connector separately; never claim an integration is live before its provider credentials and end-to-end tests pass.
 
+## Latest CI verification — 2026-10-14
+
+- Commit: `b4d7f675cbb116d64a36e777f165f68ebb29214e`.
+- Quality Checks run [38522234015](https://github.com/Yudi8377/WA-AI-HOST-LIVE/actions/runs/38522234015): **success**. Production dependency audit, migration security checks, AI agent network security tests, health-function contract tests, typecheck, lint and build passed.
+- Pages workflow run [38522234030](https://github.com/Yudi8377/WA-AI-HOST-LIVE/actions/runs/38522234030): build, lint and typecheck **success**; publishing gate step passed but the actual Pages enablement and deployment steps were **skipped** because `PAGES_ENABLED` is not set to `true`. Therefore this run does not mean the public website is live.
+- Delivery ZIP workflow run [38522234027](https://github.com/Yudi8377/WA-AI-HOST-LIVE/actions/runs/38522234027): **success**; source, phase workpack, customer deployment and checksum artifacts were generated from the same commit. Artifacts expire after 30 days.
+
 ## Honest status
 **Production health endpoint deployed; application is not yet ready for real customers.** The health endpoint reports degraded readiness by design. The public Pages deployment, protected customer APIs, verified sign-in policy, least-privilege runtime DB access, subscription enforcement, and live channel connectors remain outstanding. Do not onboard customers or process real customer messages yet.
