@@ -3,7 +3,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { ArrowRight, Bot, BrainCircuit, CheckCircle2, LockKeyhole, Menu, MessageSquareText, ShieldCheck, Workflow, X } from "lucide-react";
+import { ArrowRight, Bot, CheckCircle2, LockKeyhole, Menu, ShieldCheck, X } from "lucide-react";
 
 /* Adapted from Start Bootstrap One Page Wonder (MIT), retaining its original page structure. */
 const sections = [
@@ -152,7 +152,7 @@ export default function Website() {
         <div className="container px-5">
           <span className="aptinusa-eyebrow">BUILT FOR SMALL TEAMS TO ENTERPRISE</span>
           <h2>Keep the intelligence.<br/>Keep control of your business.</h2>
-          <p>Explore Aptinusa's workspace and platform capabilities. Production connections are enabled only after end-to-end verification.</p>
+          <p>Explore Aptinusa&apos;s workspace and platform capabilities. Production connections are enabled only after end-to-end verification.</p>
           <Link className="btn btn-primary btn-xl rounded-pill" href="/dashboard/">Open customer workspace <ArrowRight size={17} className="ms-2"/></Link>
         </div>
       </section>
