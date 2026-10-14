@@ -73,7 +73,7 @@ async function persistInbound(message: ReturnType<typeof parseWhatsAppWebhook>["
     if (inserted.length === 0) return { accepted: true, duplicate: true };
 
     await tx`select pg_advisory_xact_lock(hashtext(${tenantId + ":" + message.senderWaId}))`;
-    let customerRows = await tx`select id from customers
+    const customerRows = await tx`select id from customers
       where tenant_id = ${tenantId}::uuid and normalized_phone = ${message.senderWaId}
       order by created_at asc limit 1`;
     let customerId: string;
