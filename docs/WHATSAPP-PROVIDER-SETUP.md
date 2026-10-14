@@ -28,3 +28,10 @@ The administrator recipient number is intentionally not hardcoded into this publ
 ## Current truth
 
 No WhatsApp Business sender, Meta token, webhook, or approved message template is configured by this repository change. The API must remain in disabled/not-configured mode until those items are supplied and verified. Never claim a message was sent based only on a successful local API response.
+
+
+## Source-controlled adapter
+
+The server-side adapter is `functions/whatsapp-adapter/send-admin-notification.mjs`. It fails closed when configuration is missing, limits message length, hides provider error bodies, and returns a provider message ID rather than claiming delivery. It is not wired to a public route.
+
+Mocked tests: `npm run test:whatsapp-adapter`. These tests do not send messages to any phone.
