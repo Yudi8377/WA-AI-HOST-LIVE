@@ -16,6 +16,7 @@ This is not yet a live messaging API. It does not read/write inbox messages or c
 Do not commit any connection string or secret. Configure values only in the Neon Function environment.
 
 ## Mandatory pre-deployment checks
+0. **Runtime-role blocker found on the current development branch:** `wa_app_runtime` currently has elevated role attributes and membership in `neon_superuser`. Do not use it for application traffic. The migration now withholds grants unless the role has no elevated attributes and no inherited role memberships. Provision a clean least-privilege login role through an authorized Neon role-management flow before continuing; do not try to work around permission denials.
 1. Verify the frontend authentication transport. GitHub Pages and the Neon Auth/Function URLs are separate origins; do not assume an HttpOnly auth cookie for Neon Auth will be attached to a request to the Function hostname. If the browser cannot securely convey a verifiable session, do not deploy this as an authenticated endpoint. Configure a supported token/session transport first.
 2. Apply `db/migrations/0002_auth_membership_bootstrap.sql` to the development branch only after verifying the role and the auth-subject mapping.
 3. Verify the runtime connection's `current_user` is not `neondb_owner`, and ensure it has only required grants.
