@@ -27,7 +27,7 @@ A schema migration was prepared against a temporary branch and inspected:
 4. Add persistent inbox/conversation APIs and tests for cross-tenant read/write isolation under a non-BYPASSRLS runtime role.
 5. Connect only official, approved channel APIs; configure secrets in runtime environment, not in source control.
 6. Complete end-to-end browser tests and verify the preview URL over HTTP from an independent client.
-7. To publish the Next.js static site, a repository administrator must enable GitHub Pages with the GitHub Actions source and set repository Actions variable `PAGES_ENABLED=true`. Automation currently lacks permission to change this repository setting.
+7. To publish the Next.js static site, a repository administrator must open **Settings → Pages**, select **GitHub Actions** as the build/deployment source, then add repository Actions variable `PAGES_ENABLED=true` under **Settings → Secrets and variables → Actions → Variables**. The workflow successfully builds the static site artifact, but GitHub rejected automatic Pages-site creation with `Resource not accessible by integration`; the connected GitHub permission cannot change this repository-level setting. Once the owner enables Pages and sets the variable, the next main-branch push or manual workflow run will deploy automatically.
 
 ## Honest status
 **Prototype preview deployed; not production-ready for real customer data or messaging.** No claim is made that WhatsApp, TikTok, Facebook, Shopee, or payment integration is active.
