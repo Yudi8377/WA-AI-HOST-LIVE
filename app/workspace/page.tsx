@@ -17,7 +17,9 @@ const current=threads.find(t=>t.id===activeId)??threads[0];
 const filtered=useMemo(()=>threads.filter(t=>(t.name+" "+t.preview+" "+t.channel).toLocaleLowerCase("id").includes(search.trim().toLocaleLowerCase("id"))&&(filter==="Semua"||(filter==="Belum dibaca"?t.unread>0:t.status===filter))),[threads,search,filter]);
 function notify(s:string){setToast(s);window.setTimeout(()=>setToast(""),2600)}
 function send(){if(!draft.trim())return;const text=draft.trim();setThreads(old=>old.map(t=>t.id===activeId?{...t,messages:[...t.messages,{from:"agent",text,time:new Date().toLocaleTimeString("id-ID",{hour:"2-digit",minute:"2-digit"})}],preview:text,status:"Dialihkan ke tim"}:t));setDraft("");notify("Balasan simulasi ditambahkan. Tidak ada pesan nyata yang dikirim.")}
-function selectThread(id:number){setActiveId(id);setSuggestion(false);setThreads(old=>old.map(t=>t.id===id?{...t,unread:0}:t))}\nfunction updateStatus(status:string){setThreads(old=>old.map(t=>t.id===activeId?{...t,status,unread:0}:t));notify("Status percakapan diperbarui di simulator.");}\nfunction suggest(){setDraft("Bisa ya, Kak! Untuk memastikan estimasi sampai, boleh info kecamatan atau kode pos tujuan? Saya bantu cek sesuai layanan kurir yang tersedia.");setSuggestion(true)}
+function selectThread(id:number){setActiveId(id);setSuggestion(false);setThreads(old=>old.map(t=>t.id===id?{...t,unread:0}:t))}
+function updateStatus(status:string){setThreads(old=>old.map(t=>t.id===activeId?{...t,status,unread:0}:t));notify("Status percakapan diperbarui di simulator.");}
+function suggest(){setDraft("Bisa ya, Kak! Untuk memastikan estimasi sampai, boleh info kecamatan atau kode pos tujuan? Saya bantu cek sesuai layanan kurir yang tersedia.");setSuggestion(true)}
 return <main className="shell">
 <aside className={"sidebar "+(mobileNavOpen?"mobileopen":"")}><a className="brand" href="#"><span className="brandmark"><Radio size={21}/></span><span><b>WA AI HOST</b><small>LIVE COMMERCE OS</small></span></a>
 <div className="workspace"><span className="storemark">N</span><span className="workcopy"><b>Nusa Living Store</b><small>Workspace demo</small></span><ChevronDown size={15}/></div>
