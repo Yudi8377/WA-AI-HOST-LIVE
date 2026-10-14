@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "check:security-migration": "node scripts/check-security-migration.mjs",
-    "check:health-function": "node scripts/check-health-function.mjs"
+    "check:health-function": "node scripts/check-health-function.mjs",
+    "check:workspace-safety": "node scripts/check-workspace-safety.mjs"
   },
   "dependencies": {
     "next": "^16.4.0",
