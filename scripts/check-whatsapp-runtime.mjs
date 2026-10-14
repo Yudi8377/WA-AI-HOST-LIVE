@@ -8,7 +8,7 @@ const config = readFileSync(new URL("../next.config.ts", import.meta.url), "utf8
 for (const pattern of [
   /SECURITY DEFINER/i,
   /SET search_path = pg_catalog, public/i,
-  /HAVING count\(\) = 1/i,
+  /HAVING count\(\*\) = 1/i,
   /REVOKE ALL ON FUNCTION app_private\.resolve_whatsapp_channel\(text\) FROM PUBLIC/i,
   /GRANT EXECUTE ON FUNCTION app_private\.resolve_whatsapp_channel\(text\) TO wa_webhook_runtime/i,
   /GRANT SELECT, INSERT, UPDATE ON public\.messages TO wa_webhook_runtime/i
