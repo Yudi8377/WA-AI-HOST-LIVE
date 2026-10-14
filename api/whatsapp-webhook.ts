@@ -55,6 +55,7 @@ function hashPayload(rawBody: string) {
 async function persistInbound(message: ReturnType<typeof parseWhatsAppWebhook>["messages"][number], payloadHash: string) {
   const sql = database();
   return sql.begin(async (tx) => {
+    await tx`SET LOCAL ROLE wa_app_runtime_safe`;
     // This SECURITY DEFINER resolver returns a tenant only for one unambiguous,
     // active WhatsApp phone number. Caller-supplied tenant IDs are never trusted.
     const matches = await tx`select tenant_id, channel_connection_id
@@ -137,6 +138,7 @@ async function persistInbound(message: ReturnType<typeof parseWhatsAppWebhook>["
 async function persistStatus(status: ReturnType<typeof parseWhatsAppWebhook>["statuses"][number], payloadHash: string) {
   const sql = database();
   return sql.begin(async (tx) => {
+    await tx`SET LOCAL ROLE wa_app_runtime_safe`;
     const matches = await tx`select tenant_id from app_private.resolve_whatsapp_channel(${status.phoneNumberId})`;
     if (matches.length !== 1) return { accepted: false, duplicate: false };
     const tenantId = String(matches[0].tenant_id);
