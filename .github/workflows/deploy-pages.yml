@@ -41,34 +41,16 @@ jobs:
           path: out
           if-no-files-found: error
           retention-days: 14
-      - name: Explain publication gate
-        if: ${{ vars.PAGES_ENABLED != 'true' }}
-        run: |
-          {
-            echo "## Website built, publication pending"
-            echo ""
-            echo "The static website build succeeded, but GitHub Pages deployment was skipped."
-            echo ""
-            echo "A repository administrator must:"
-            echo "1. Open **Settings → Pages** and select **GitHub Actions** as the build and deployment source."
-            echo "2. Open **Settings → Secrets and variables → Actions → Variables** and create repository variable `PAGES_ENABLED` with value `true`."
-            echo "3. Push a new commit to `main` or manually rerun this workflow."
-            echo ""
-            echo "This run is not evidence that the public website is live."
-          } >> "$GITHUB_STEP_SUMMARY"
       - name: Enable GitHub Pages
-        if: ${{ vars.PAGES_ENABLED == 'true' }}
         uses: actions/configure-pages@v5
         with:
           enablement: true
       - name: Upload Pages artifact
-        if: ${{ vars.PAGES_ENABLED == 'true' }}
         uses: actions/upload-pages-artifact@v3
         with:
           path: out
 
   deploy:
-    if: ${{ vars.PAGES_ENABLED == 'true' }}
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
