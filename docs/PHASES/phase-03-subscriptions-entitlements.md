@@ -5,7 +5,7 @@ This phase adds a schema proposal for the Aptinusa SaaS control plane. It is int
 
 ## Tables
 - `module_catalog`: separately sellable features, e.g. WhatsApp inbox, AI replies, CRM, analytics, TikTok connector, Shopee connector, multi-channel orchestration.
-- `plan_catalog`: pricing and billing cadence. Prices are stored in minor currency units (IDR rupiah units as integer rupiah; confirm billing provider conventions before integration).
+- `plan_catalog`: pricing and billing cadence. Prices are stored as integer currency amounts; confirm whether the selected billing provider expects rupiah or minor units before integration.
 - `plan_module_entitlements`: which modules a plan includes and structured limits.
 - `tenant_subscriptions`: tenant subscription lifecycle, trial window, billing-provider references and renewal period.
 - `tenant_module_overrides`: audited administrative exception concept with reason and expiry.
