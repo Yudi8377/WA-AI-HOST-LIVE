@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Activity, BookOpen, Bot, BrainCircuit, Code2, Globe2, LayoutDashboard, ShieldCheck, Workflow, Menu, X, ChevronDown, Bell, Search } from "lucide-react";
+import { Activity, BookOpen, Bot, BrainCircuit, Code2, Globe2, LayoutDashboard, ShieldCheck, Workflow, Menu, X } from "lucide-react";
 
 const links=[{href:"/",label:"Website resmi",icon:Globe2,group:"PLATFORM"},{href:"/dashboard/",label:"Dashboard pelanggan",icon:LayoutDashboard,group:"WORKSPACE"},{href:"/admin/",label:"Admin control panel",icon:ShieldCheck,group:"WORKSPACE"},{href:"/workspace/",label:"Inbox simulator",icon:Workflow,group:"WORKSPACE"},{href:"/api/",label:"API integrasi",icon:Code2,group:"DEVELOPERS"},{href:"/connectors/",label:"Dokumentasi konektor",icon:BookOpen,group:"DEVELOPERS"},{href:"/agents/",label:"Jaringan multi-agent",icon:BrainCircuit,group:"DEVELOPERS"},{href:"/status/",label:"Status layanan",icon:Activity,group:"DEVELOPERS"}];
 
