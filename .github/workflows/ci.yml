@@ -29,6 +29,8 @@ jobs:
         run: node scripts/check-agent-network.mjs
       - name: Production health function contract tests
         run: npm run check:health-function
+      - name: Workspace safety and UX contract checks
+        run: npm run check:workspace-safety
       - name: Typecheck
         run: npm run typecheck
       - name: Lint
