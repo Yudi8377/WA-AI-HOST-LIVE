@@ -2,7 +2,7 @@
 
 ## Current implementation state
 - The public Next.js frontend uses `output: "export"`. Its `GET /api/health` route is a static-export-safe fallback and reports `status: static`; it is not a live readiness probe.
-- A development Neon health function is deployed, but it currently reports a development-only liveness response and does not validate database connectivity or production dependencies.
+- A production Neon health function is deployed at `https://br-shy-queen-b3e1ch9j-health.compute.c-4.ap-southeast-1.aws.neon.tech/`. Neon reports deployment `completed` and invocation begin/end logs. It intentionally reports `status: degraded` while authenticated APIs, runtime database identity, and messaging dependencies are not configured. A health response is not proof that customer workflows are ready.
 - `GET /api/v1/conversations` is a static placeholder that returns `RUNTIME_API_NOT_CONFIGURED`. It does not read tenant data and must not be presented as a working conversation API.
 - No production conversation read/write route is enabled. This is intentionally fail-closed until verified server sessions, tenant membership, a least-privilege runtime database role, and transaction-scoped RLS context are wired.
 - The production Neon branch has the 12 core application tables. RLS is enabled on every public application table and forced on all tenant-owned tables; `app_users` has enabled-but-not-forced RLS for trusted identity provisioning.
@@ -12,7 +12,7 @@
 - Neon project: `WA AI HOST LIVE`, production branch `br-shy-queen-b3e1ch9j`, database `neondb`.
 - Production Auth uses Better Auth and its Neon-managed endpoint. Email/password sign-up is currently enabled without mandatory email verification. The configured Google OAuth provider has no client ID/secret visible in the configuration; do not advertise Google sign-in as operational.
 - The production database currently has only the `neondb_owner` login role in the checked runtime-role set; it has `BYPASSRLS`. No dedicated `wa_app_runtime` role was found. Application traffic must not use the owner role.
-- GitHub Actions quality checks pass. The Pages workflow can build and upload a static artifact, but the last recorded successful workflow did not publish a Pages deployment because the repository Pages enablement variable is opt-in. A successful workflow run is not proof that the public site is live.
+- GitHub Actions quality checks pass, including production health-function contract tests. The Pages workflow can build and upload a static artifact, but it does not publish unless repository Actions variable `PAGES_ENABLED=true` and Pages is enabled. A successful workflow run is not proof that the public site is live. Delivery ZIP packaging now runs on pushes to `main` as well as manual runs and version tags.
 
 ## Remaining implementation gates
 1. Configure email verification and production sign-in policy; do not rely on unconfigured Google OAuth.
