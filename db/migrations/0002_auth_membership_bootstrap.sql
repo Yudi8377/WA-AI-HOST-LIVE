@@ -39,6 +39,8 @@ END;
 $function$;
 
 REVOKE ALL ON FUNCTION app_private.resolve_active_memberships(text) FROM PUBLIC;
+REVOKE ALL ON FUNCTION app_private.resolve_active_memberships(text) FROM wa_app_runtime;
+REVOKE ALL ON SCHEMA app_private FROM wa_app_runtime;
 
 -- Never grant to a role with elevated attributes or inherited role memberships.
 -- The Neon role-creation integration may produce a role with elevated grants; fail closed.
