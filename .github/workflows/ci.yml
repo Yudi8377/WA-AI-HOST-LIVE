@@ -27,6 +27,8 @@ jobs:
         run: npm run check:security-migration
       - name: Inbox API fail-closed smoke tests
         run: npm run test:inbox-api
+      - name: WhatsApp adapter mocked tests
+        run: npm run test:whatsapp-adapter
       - name: Typecheck
         run: npm run typecheck
       - name: Lint
