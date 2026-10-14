@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Bot, Boxes, BrainCircuit, CheckCircle2, ChevronRight, CircleDot, Globe2, LockKeyhole, MessageSquareText, Network, ShieldCheck, Workflow, Zap } from "lucide-react";
+import { ArrowRight, Bot, Boxes, BrainCircuit, CheckCircle2, ChevronRight, CircleDot, LockKeyhole, MessageSquareText, Network, ShieldCheck, Workflow } from "lucide-react";
 
 const capabilities = [
   { icon: MessageSquareText, title: "Conversations that stay connected", text: "Bring customer context and assisted replies into a workspace your team can understand." },
