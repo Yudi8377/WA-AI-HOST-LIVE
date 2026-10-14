@@ -27,17 +27,17 @@ REVOKE ALL ON FUNCTION app_private.resolve_whatsapp_channel(text) FROM PUBLIC;
 
 DO $grant$
 BEGIN
-  IF EXISTS (SELECT 1 FROM pg_catalog.pg_roles WHERE rolname = 'wa_app_runtime') THEN
-    GRANT USAGE ON SCHEMA public, app_private TO wa_app_runtime;
-    GRANT EXECUTE ON FUNCTION app_private.resolve_whatsapp_channel(text) TO wa_app_runtime;
-    GRANT EXECUTE ON FUNCTION public.app_current_tenant_id() TO wa_app_runtime;
-    GRANT SELECT ON public.channel_connections TO wa_app_runtime;
-    GRANT SELECT, INSERT, UPDATE ON public.customers TO wa_app_runtime;
-    GRANT SELECT, INSERT, UPDATE ON public.conversations TO wa_app_runtime;
-    GRANT SELECT, INSERT, UPDATE ON public.messages TO wa_app_runtime;
-    GRANT SELECT, INSERT, UPDATE ON public.webhook_events TO wa_app_runtime;
-    GRANT SELECT, INSERT, UPDATE ON public.customer_channel_preferences TO wa_app_runtime;
-    GRANT INSERT ON public.audit_events TO wa_app_runtime;
+  IF EXISTS (SELECT 1 FROM pg_catalog.pg_roles WHERE rolname = 'wa_webhook_runtime') THEN
+    GRANT USAGE ON SCHEMA public, app_private TO wa_webhook_runtime;
+    GRANT EXECUTE ON FUNCTION app_private.resolve_whatsapp_channel(text) TO wa_webhook_runtime;
+    GRANT EXECUTE ON FUNCTION public.app_current_tenant_id() TO wa_webhook_runtime;
+    GRANT SELECT ON public.channel_connections TO wa_webhook_runtime;
+    GRANT SELECT, INSERT, UPDATE ON public.customers TO wa_webhook_runtime;
+    GRANT SELECT, INSERT, UPDATE ON public.conversations TO wa_webhook_runtime;
+    GRANT SELECT, INSERT, UPDATE ON public.messages TO wa_webhook_runtime;
+    GRANT SELECT, INSERT, UPDATE ON public.webhook_events TO wa_webhook_runtime;
+    GRANT SELECT, INSERT, UPDATE ON public.customer_channel_preferences TO wa_webhook_runtime;
+    GRANT INSERT ON public.audit_events TO wa_webhook_runtime;
   END IF;
 END;
 $grant$;
