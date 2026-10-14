@@ -40,7 +40,8 @@ GitHub Actions memeriksa lint/typecheck/build. Pemeriksaan itu bukan pengganti u
 ## Deployment status (2026-10-14)
 
 - The dashboard builds as a static Next.js export for GitHub Pages.
-- The GitHub Actions workflow publishes a build artifact on each push. Automatic Pages deployment is gated behind the repository variable `PAGES_ENABLED=true` because the connected automation token cannot create the repository Pages site. To go live, a repository admin must enable **Settings → Pages → Build and deployment → GitHub Actions**, then set the Actions variable `PAGES_ENABLED` to `true`.
+- A self-contained dashboard preview is deployed on Neon Functions: https://br-quiet-lake-b3f99jd3-dashboard.compute.c-4.ap-southeast-1.aws.neon.tech/ . It is a live interactive prototype using synthetic data; it does not send or receive real customer messages.
+- GitHub Actions quality checks passed on commit `8d3254683908d3d31b77153b4dbde9b07720b2b3`. Static build artifact generation succeeds. GitHub Pages site creation was attempted but GitHub rejected the action with `Resource not accessible by integration`; a repository admin must enable **Settings → Pages → Build and deployment → GitHub Actions** to publish the Next.js static export there.
 - A development-only Neon Function health endpoint is deployed at [WA AI HOST LIVE health](https://br-quiet-lake-b3f99jd3-health.compute.c-4.ap-southeast-1.aws.neon.tech/). It reports service health only; it does not mean messaging channels are connected.
 - Neon Managed Better Auth is enabled on the development branch only. Production/default branch has not been migrated or connected to application traffic.
 - Neon development branch: `wa-ai-host-live-dev`. Do not place production data or real customer information in it.
