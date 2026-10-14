@@ -16,7 +16,7 @@ const modules = [
 export default function Dashboard() {
   return <PortalShell active="/dashboard/" area="customer">
     <div className="td-page-head"><div><span className="td-eyebrow">RUANG KERJA PELANGGAN / RINGKASAN</span><h1>Senang Anda hadir di sini.</h1><p>Peralatan bisnis, kanal, dan bantuan AI Anda—tertata di satu tempat.</p></div><Link className="td-outline-button" href="/connectors/"><Settings2 size={16}/> Pengaturan ruang kerja</Link></div>
-    <div className="td-preview-alert"><CircleDashed size={19}/><div><b>Pratinjau workspace</b><p>Ini adalah pratinjau antarmuka, bukan akun pelanggan yang terautentikasi. Jangan masukkan data pribadi, token akses, atau kredensial produksi di sini.</p></div><span>PENGEMBANGAN</span></div>
+    <div className="td-preview-alert"><CircleDashed size={19}/><div><b>Pratinjau ruang kerja</b><p>Ini adalah pratinjau antarmuka, bukan akun pelanggan yang terautentikasi. Jangan masukkan data pribadi, token akses, atau kredensial produksi di sini.</p></div><span>PENGEMBANGAN</span></div>
     <div className="td-stat-grid">
       <article className="td-stat-card"><div className="td-stat-icon green"><MessageSquareText size={19}/></div><span>Percakapan</span><strong>—</strong><small><CircleDashed size={12}/> Menunggu layanan kotak masuk</small></article>
       <article className="td-stat-card"><div className="td-stat-icon blue"><Link2 size={19}/></div><span>Kanal terhubung</span><strong>0</strong><small><CircleDashed size={12}/> Belum ada konektor aktif</small></article>
