@@ -10,12 +10,14 @@ for (const pattern of [
   /SET search_path = pg_catalog, public/i,
   /HAVING count\(\*\) = 1/i,
   /REVOKE ALL ON FUNCTION app_private\.resolve_whatsapp_channel\(text\) FROM PUBLIC/i,
-  /GRANT EXECUTE ON FUNCTION app_private\.resolve_whatsapp_channel\(text\) TO wa_webhook_runtime/i,
-  /GRANT SELECT, INSERT, UPDATE ON public\.messages TO wa_webhook_runtime/i
+  /GRANT EXECUTE ON FUNCTION app_private\.resolve_whatsapp_channel\(text\) TO wa_app_runtime_safe/i,
+  /GRANT SELECT, INSERT, UPDATE ON public\.messages TO wa_app_runtime_safe/i,
+  /GRANT wa_app_runtime_safe TO wa_webhook_runtime/i
 ]) assert.match(migration, pattern, `Migration missing invariant: ${pattern}`);
 
 for (const pattern of [
   /WHATSAPP_WEBHOOK_ENABLED !== "true"/,
+  /SET LOCAL ROLE wa_app_runtime_safe/g,
   /verifyWhatsAppSignature\(rawBody/,
   /INVALID_WEBHOOK_SIGNATURE/,
   /MAX_BODY_BYTES/,
