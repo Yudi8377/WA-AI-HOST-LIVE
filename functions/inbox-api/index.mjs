@@ -1,12 +1,15 @@
 /**
- * Neon Function: authenticated tenant-scoped inbox API.
+ * Neon Function: authenticated tenant-membership bootstrap.
  *
  * Required server-side environment:
  *   NEON_AUTH_BASE_URL   Neon Better Auth base URL (server-side only)
  *   WA_APP_DATABASE_URL  pooled connection string for wa_app_runtime (never owner)
  *   ALLOWED_ORIGIN       exact dashboard origin
  *
- * The handler fails closed if configuration is missing or DB role is privileged.
+ * Deployment gate: verify that the chosen browser auth flow can securely deliver
+ * a valid session to this function. GitHub Pages and Neon Auth are separate origins;
+ * do not assume an HttpOnly cookie is sent to this function's hostname.
+ * This function intentionally fails closed when configuration/session is absent.
  */
 import postgres from "postgres";
 
@@ -40,7 +43,9 @@ async function verifiedSession(request) {
   const cookie = request.headers.get("cookie");
   if (!base || !cookie) return null;
 
-  const response = await fetch(new URL("/get-session", base), {
+  // Keep Neon Auth's path prefix (e.g. /neondb/auth) intact.
+  const authBase = base.endsWith("/") ? base : `${base}/`;
+  const response = await fetch(new URL("get-session", authBase), {
     method: "GET",
     headers: { cookie, accept: "application/json" },
     redirect: "error",
@@ -50,7 +55,7 @@ async function verifiedSession(request) {
 
   const value = await response.json().catch(() => null);
   const user = value?.user;
-  if (!user || typeof user.id !== "string" || user.id.length > 255) return null;
+  if (!user || typeof user.id !== "string" || user.id.length < 1 || user.id.length > 255) return null;
   return { id: user.id, name: typeof user.name === "string" ? user.name : null };
 }
 
@@ -75,7 +80,7 @@ async function getMemberships(authSubject) {
   return db.begin(async (tx) => {
     const roleRows = await tx`select current_user as role`;
     const role = roleRows[0]?.role;
-    if (!role || role === "neondb_owner" || role === "postgres" || role === "cloud_admin") {
+    if (!role || ["neondb_owner", "postgres", "cloud_admin"].includes(role)) {
       throw new Error("PRIVILEGED_DATABASE_ROLE");
     }
     return tx`select tenant_id, tenant_name, tenant_slug, membership_role
@@ -87,9 +92,7 @@ export default {
   async fetch(request) {
     const headers = cors(request);
     if (request.method === "OPTIONS") {
-      if (!headers["access-control-allow-origin"]) {
-        return json({ error: "origin_not_allowed" }, 403);
-      }
+      if (!headers["access-control-allow-origin"]) return json({ error: "origin_not_allowed" }, 403);
       return new Response(null, { status: 204, headers });
     }
 
@@ -102,9 +105,7 @@ export default {
       return json({ error: "not_found" }, 404, headers);
     }
 
-    if (!headers["access-control-allow-origin"] || request.headers.get("origin") !== process.env.ALLOWED_ORIGIN) {
-      return json({ error: "origin_not_allowed" }, 403);
-    }
+    if (!headers["access-control-allow-origin"]) return json({ error: "origin_not_allowed" }, 403);
 
     try {
       const session = await verifiedSession(request);
@@ -121,7 +122,6 @@ export default {
         })),
       }, 200, headers);
     } catch (error) {
-      // Do not leak SQL, tokens, stack traces, or customer data.
       const code = error instanceof Error ? error.message : "";
       if (code === "DATABASE_NOT_CONFIGURED" || code === "PRIVILEGED_DATABASE_ROLE") {
         return json({ error: "service_not_configured" }, 503, headers);
