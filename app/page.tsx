@@ -14,7 +14,7 @@ const sections = [
     text: "Satukan percakapan pelanggan, pengalihan ke tim, dan pengetahuan bersama dalam satu ruang kerja. Bantu tim merespons secara konsisten tanpa kehilangan konteks hubungan dengan pelanggan.",
     bullets: ["Percakapan pelanggan dan konteks bersama", "Pengalihan ke petugas dan alur kerja berbasis izin", "Alur yang jelas dari pertanyaan hingga tindak lanjut"],
     image: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=1000&q=85",
-    alt: "Team collaborating around a digital workspace",
+    alt: "Tim berkolaborasi dalam ruang kerja digital",
     href: "/workspace/",
     link: "Jelajahi ruang percakapan",
     reverse: true
@@ -26,7 +26,7 @@ const sections = [
     text: "Koordinasikan CRM, tindak lanjut penjualan, pengetahuan, dan otomatisasi dalam satu lapisan operasional modular. Setiap koneksi menampilkan izin, kesiapan, dan penanggung jawab sebelum diaktifkan.",
     bullets: ["Alur kerja modular untuk beragam kebutuhan bisnis", "Aksi terbatas, persetujuan, dan pencatatan audit", "Kesiapan kanal resmi ditampilkan secara transparan"],
     image: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1000&q=85",
-    alt: "Business team planning a coordinated workflow",
+    alt: "Tim bisnis merencanakan alur kerja terkoordinasi",
     href: "/connectors/",
     link: "Tinjau integrasi",
     reverse: false
@@ -38,7 +38,7 @@ const sections = [
     text: "Gunakan peran AI khusus untuk dukungan, pengetahuan, operasional, dan analisis. Koordinasi mengikuti kebijakan bersama, batas anggaran, isolasi tenant, dan tinjauan manusia—bukan akses agen tanpa kendali.",
     bullets: ["Tanggung jawab agen sesuai tujuan", "Akses dan izin alat sesuai tenant", "Tinjauan manusia untuk tindakan sensitif atau eksternal"],
     image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1000&q=85",
-    alt: "Colleagues working together on strategy",
+    alt: "Rekan kerja menyusun strategi bersama",
     href: "/agents/",
     link: "Jelajahi arsitektur AI",
     reverse: true
