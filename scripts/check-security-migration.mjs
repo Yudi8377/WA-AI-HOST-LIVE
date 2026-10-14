@@ -17,6 +17,15 @@ const required = [
   /m\.status = 'active'/i,
   /t\.status = 'active'/i,
   /GRANT EXECUTE ON FUNCTION app_private\.resolve_active_memberships\(text\) TO wa_app_runtime/i,
+  /AND NOT rolsuper/i,
+  /AND NOT rolcreatedb/i,
+  /AND NOT rolcreaterole/i,
+  /AND NOT rolreplication/i,
+  /AND NOT rolbypassrls/i,
+  /FROM pg_catalog\.pg_auth_members/i,
+  /REVOKE ALL ON FUNCTION app_private\.resolve_active_memberships\(text\) FROM wa_app_runtime/i,
+  /REVOKE ALL ON SCHEMA app_private FROM wa_app_runtime/i,
+  /RAISE WARNING .*no runtime grants were issued/i,
 ];
 
 for (const pattern of required) {
