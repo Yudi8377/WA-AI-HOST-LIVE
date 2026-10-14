@@ -20,7 +20,7 @@ export function createAgentNetwork(dependencies) {
  if(!dependencies||typeof dependencies.authorizeMembership!=="function"||typeof dependencies.verifyApproval!=="function"||typeof dependencies.auditSink!=="function"||typeof dependencies.idempotencyStore?.get!=="function"||typeof dependencies.idempotencyStore?.put!=="function") throw new TypeError("Agent network requires authorization, approval, audit and idempotency adapters.");
  const agents=new Map(), now=dependencies.now??(()=>Date.now()), maxBudgetUsd=dependencies.maxBudgetUsd??1;
  function register(agent){
-  if(!agent||!/^[a-z][a-z0-9-]{1,63}$/.test(agent.id)||typeof agent.execute!=="function"||!Array.isArray(agent.taskTypes)||!Array.isArray(agent.requiredTools)||!(agent.minimumRiskTier in RISK)) throw new TypeError("Invalid agent definition.");
+  if(!agent||!/^[a-z][a-z0-9-]{1,63}$/.test(agent.id)||typeof agent.execute!=="function"||!Array.isArray(agent.taskTypes)||!Array.isArray(agent.requiredTools)||!Object.hasOwn(RISK,agent.minimumRiskTier)) throw new TypeError("Invalid agent definition.");
   if(agents.has(agent.id)) throw new Error("Agent ID already registered.");
   agents.set(agent.id,Object.freeze({...agent,taskTypes:Object.freeze([...agent.taskTypes]),requiredTools:Object.freeze([...agent.requiredTools])}));
  }
