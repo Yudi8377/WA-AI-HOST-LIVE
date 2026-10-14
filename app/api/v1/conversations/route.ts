@@ -6,6 +6,8 @@ import { NextResponse } from "next/server";
  * server-side session verification, tenant membership, and RLS context are wired.
  * Never accept caller-supplied identity as authentication.
  */
+export const dynamic = "force-static";
+
 export async function GET() {
   return NextResponse.json({
     error: "RUNTIME_API_NOT_CONFIGURED",
