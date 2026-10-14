@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { withTenantDatabase } from "@/src/lib/tenant-db";
 
 /**
  * Tenant-scoped conversation listing.
