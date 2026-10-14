@@ -6,6 +6,11 @@
 - `GET /api/v1/conversations` is a static placeholder that returns `RUNTIME_API_NOT_CONFIGURED`. It does not read tenant data and must not be presented as a working conversation API.
 - No production conversation read/write route is enabled. This is intentionally fail-closed until verified server sessions, tenant membership and transaction-scoped RLS context are wired.
 
+## Environment audit (2026-10-14)
+- Neon project `WA AI HOST LIVE` has a development branch `wa-ai-host-live-dev` with Neon Auth enabled and the GitHub Pages origin listed as trusted.
+- The `production` branch currently reports Neon Auth as not enabled. This is a live-readiness blocker; do not silently enable or change production authentication settings as part of a code-only change.
+- The public frontend build can pass without production authentication, but customer sign-in and protected APIs cannot be considered ready until production auth is deliberately configured and tested.
+
 ## Next implementation gate
 1. Choose and configure the production server-side identity/session adapter; verify the session on every protected request.
 2. Map the authenticated provider subject to `app_users.id`; never trust identity supplied by request parameters.
