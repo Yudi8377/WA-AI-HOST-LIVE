@@ -25,6 +25,8 @@ jobs:
         run: npm audit --omit=dev --audit-level=high
       - name: Static security migration checks
         run: npm run check:security-migration
+      - name: Agent network security tests
+        run: node scripts/check-agent-network.mjs
       - name: Typecheck
         run: npm run typecheck
       - name: Lint

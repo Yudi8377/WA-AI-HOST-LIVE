@@ -1,4 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
-export const metadata: Metadata = { title: "WA AI HOST LIVE — Commerce Command Center", description: "Pusat kendali AI untuk percakapan, katalog, dan live commerce lintas kanal.", applicationName: "WA AI HOST LIVE" };
+import "./aptinusa.css";
+export const metadata: Metadata = {
+  title: "Aptinusa — Adaptive Intelligence. Connected Business.",
+  description: "Aptinusa is building a connected AI business workspace for customer engagement, commerce workflows, integrations and governed multi-agent automation.",
+  applicationName: "Aptinusa",
+  robots: { index: true, follow: true }
+};
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) { return <html lang="id"><body>{children}</body></html>; }

@@ -1,0 +1,56 @@
+name: Build Aptinusa delivery ZIPs
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+  push:
+    tags:
+      - "aptinusa-v*"
+permissions:
+  contents: read
+  actions: read
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout reviewed source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Build delivery archives
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          git archive --format=zip --prefix=aptinusa-source/ HEAD -o dist/aptinusa-source.zip
+          zip -qr dist/aptinusa-phases.zip docs/PHASES docs/SEO-SERP-PLAN.md docs/AI-AGENT-NETWORK.md docs/ROADMAP.md
+          zip -qr dist/aptinusa-customer-deployment.zip docs/CUSTOMER-DEPLOYMENT.md docs/PRODUCTION-READINESS.md docs/SECURITY.md docs/NEON-OPERATIONS.md .env.example db/migrations
+          (cd dist && sha256sum *.zip > SHA256SUMS.txt)
+      - name: Upload source code ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: aptinusa-source-code
+          path: dist/aptinusa-source.zip
+          if-no-files-found: error
+          retention-days: 30
+      - name: Upload phase workpack ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: aptinusa-phase-workpack
+          path: dist/aptinusa-phases.zip
+          if-no-files-found: error
+          retention-days: 30
+      - name: Upload customer deployment ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: aptinusa-customer-deployment
+          path: dist/aptinusa-customer-deployment.zip
+          if-no-files-found: error
+          retention-days: 30
+      - name: Upload checksums
+        uses: actions/upload-artifact@v4
+        with:
+          name: aptinusa-package-checksums
+          path: dist/SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 30
