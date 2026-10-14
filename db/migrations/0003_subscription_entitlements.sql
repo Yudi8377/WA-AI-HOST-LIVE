@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS public.plan_catalog (
   name text NOT NULL CHECK (length(trim(name)) BETWEEN 1 AND 120),
   description text NOT NULL DEFAULT '',
   currency char(3) NOT NULL DEFAULT 'IDR',
-  price_minor bigint NOT NULL DEFAULT 0 CHECK (price_minor >= 0),
+  price_amount bigint NOT NULL DEFAULT 0 CHECK (price_amount >= 0),
   billing_period text NOT NULL DEFAULT 'monthly' CHECK (billing_period IN ('monthly','annual')),
   status text NOT NULL DEFAULT 'draft' CHECK (status IN ('draft','active','retired')),
   created_at timestamptz NOT NULL DEFAULT now(),
