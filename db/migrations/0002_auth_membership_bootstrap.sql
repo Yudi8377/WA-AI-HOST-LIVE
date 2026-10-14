@@ -1,6 +1,6 @@
 -- 0002: Safe bootstrap for resolving the authenticated user's active tenant memberships.
--- Apply only after reviewing the auth-subject mapping and creating the runtime role.
--- The API MUST verify the Better Auth session/JWT before calling this function.
+-- The API MUST verify the Better Auth session before calling this function.
+-- Runtime grants are withheld unless wa_app_runtime is a least-privilege login role.
 BEGIN;
 
 CREATE SCHEMA IF NOT EXISTS app_private;
@@ -19,7 +19,6 @@ SECURITY DEFINER
 SET search_path = pg_catalog, public
 AS $function$
 BEGIN
-  -- Reject malformed subjects early. Never accept a tenant ID from the caller here.
   IF p_auth_subject IS NULL
      OR length(p_auth_subject) < 1
      OR length(p_auth_subject) > 255 THEN
@@ -39,14 +38,33 @@ BEGIN
 END;
 $function$;
 
--- SECURITY DEFINER functions are not public APIs. Grant only to the server-side runtime role,
--- when it exists in this branch. If the role is created later, repeat these grants explicitly.
 REVOKE ALL ON FUNCTION app_private.resolve_active_memberships(text) FROM PUBLIC;
+
+-- Never grant to a role with elevated attributes or inherited role memberships.
+-- The Neon role-creation integration may produce a role with elevated grants; fail closed.
 DO $grant$
+DECLARE
+  runtime_oid oid;
 BEGIN
-  IF EXISTS (SELECT 1 FROM pg_catalog.pg_roles WHERE rolname = 'wa_app_runtime') THEN
+  SELECT oid INTO runtime_oid
+  FROM pg_catalog.pg_roles
+  WHERE rolname = 'wa_app_runtime'
+    AND rolcanlogin
+    AND NOT rolsuper
+    AND NOT rolcreatedb
+    AND NOT rolcreaterole
+    AND NOT rolreplication
+    AND NOT rolbypassrls;
+
+  IF runtime_oid IS NOT NULL
+     AND NOT EXISTS (
+       SELECT 1 FROM pg_catalog.pg_auth_members
+       WHERE member = runtime_oid
+     ) THEN
     EXECUTE 'GRANT USAGE ON SCHEMA app_private TO wa_app_runtime';
     EXECUTE 'GRANT EXECUTE ON FUNCTION app_private.resolve_active_memberships(text) TO wa_app_runtime';
+  ELSE
+    RAISE WARNING 'wa_app_runtime is missing or not least-privileged; no runtime grants were issued';
   END IF;
 END;
 $grant$;
