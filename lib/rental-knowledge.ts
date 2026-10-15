@@ -87,6 +87,8 @@ export const localRentalKnowledge:Knowledge[]=[
 const normalize=(s:string)=>s.toLocaleLowerCase("id").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9\s]/g," ").replace(/\s+/g," ").trim();
 export function classifyRentalIntent(raw:string){
  const m=normalize(raw);
+ // Explicit price requests with a named vehicle outrank date words such as “besok”.
+ if(/\b(harga|berapa|tarif|biaya)\b/.test(m)&&detectCar(raw))return "harga";
  // High-risk intents take precedence over ordinary price/location keywords.
  const priority:Record<string,string[]>={incident:["kecelakaan","tabrak","korban","cedera","kebakaran","darurat"],breakdown:["mogok","rem blong","ban pecah","ban bocor","overheat","mesin mati"],complaint:["komplain","kecewa","tidak puas","keluhan","sopir kasar"],fraud:["penipuan","rekening pribadi","otp","pin","akun palsu"],unsafe:["balap liar","kabur polisi","menyelundup","dokumen palsu","palsukan sim"]};
  for(const [intent,words] of Object.entries(priority))if(words.some(w=>m.includes(normalize(w))))return intent;
