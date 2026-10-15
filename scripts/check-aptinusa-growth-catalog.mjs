@@ -12,13 +12,13 @@ assert.ok(Array.isArray(catalog.modules) && catalog.modules.length > 0, "catalog
 assert.ok(Array.isArray(catalog.plans) && catalog.plans.length > 0, "catalog must contain plans");
 
 const ids = new Set();
-for (const module of catalog.modules) {
-  assert.ok(module.id && !ids.has(module.id), `module id missing or duplicated: ${module.id}`);
-  ids.add(module.id);
-  assert.ok(allowedStatuses.has(module.status), `invalid status for ${module.id}: ${module.status}`);
-  assert.equal(typeof module.requiresExplicitApprovalForExternalAction, "boolean", `approval flag required: ${module.id}`);
-  if (module.status === "approval_required") {
-    assert.equal(module.externalCosts, true, `approval-required module should disclose external costs: ${module.id}`);
+for (const item of catalog.modules) {
+  assert.ok(item.id && !ids.has(item.id), `module id missing or duplicated: ${item.id}`);
+  ids.add(item.id);
+  assert.ok(allowedStatuses.has(item.status), `invalid status for ${item.id}: ${item.status}`);
+  assert.equal(typeof item.requiresExplicitApprovalForExternalAction, "boolean", `approval flag required: ${item.id}`);
+  if (item.status === "approval_required") {
+    assert.equal(item.externalCosts, true, `approval-required module should disclose external costs: ${item.id}`);
   }
 }
 
