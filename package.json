@@ -20,7 +20,8 @@
     "check:aptinusa-proximity-catalog": "node scripts/check-aptinusa-proximity-catalog.mjs",
     "check:aptinusa-growth-catalog": "node scripts/check-aptinusa-growth-catalog.mjs",
     "test:aptinusa-marketing-policy": "node scripts/test-aptinusa-marketing-policy.mjs",
-    "check:aptinusa-marketing-migration": "node scripts/check-aptinusa-marketing-migration.mjs"
+    "check:aptinusa-marketing-migration": "node scripts/check-aptinusa-marketing-migration.mjs",
+    "test:aptinusa-dry-run-queue": "node scripts/test-aptinusa-dry-run-delivery-queue.mjs"
   },
   "dependencies": {
     "next": "^16.4.0",
