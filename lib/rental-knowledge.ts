@@ -99,7 +99,7 @@ export function classifyRentalIntent(raw:string){
  const scored=localRentalKnowledge.map(k=>({k,score:k.keywords.reduce((n,w)=>n+(m.includes(normalize(w))?Math.max(1,normalize(w).split(" ").length):0),0)})).sort((a,b)=>b.score-a.score);
  return scored[0]?.score>0?scored[0].k.intent:"clarify";
 }
-function detectCar(raw:string){const m=normalize(raw);return rentalFleet.find(car=>m.includes(normalize(car.name))||normalize(car.name).split(" ").some((part,i,all)=>part.length>4&&m.includes(part)&&i===all.length-1));}
+function detectCar(raw:string){const m=normalize(raw);const aliases:Record<string,string[]>={"Toyota Avanza":["avanza","avansa"],"Mitsubishi Xpander":["xpander","expander"],"Toyota Innova Zenix":["innova","zenix","innova zenix"],"Toyota HiAce":["hiace","hi ace","haice"],"Honda Brio":["brio"]};return rentalFleet.find(car=>[normalize(car.name),...(aliases[car.name]??[]).map(normalize)].some(alias=>m.includes(alias)));}
 const money=(n:number)=>"Rp"+n.toLocaleString("id-ID");
 export function answerRentalMessage(raw:string):RentalReply{
  const intent=classifyRentalIntent(raw);
