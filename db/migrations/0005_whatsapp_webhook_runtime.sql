@@ -38,7 +38,8 @@ REVOKE ALL ON FUNCTION app_private.resolve_whatsapp_channel(text) FROM PUBLIC;
 DO $grant$
 BEGIN
   IF EXISTS (SELECT 1 FROM pg_catalog.pg_roles WHERE rolname = 'wa_webhook_runtime')
-     AND EXISTS (SELECT 1 FROM pg_catalog.pg_roles WHERE rolname = 'wa_app_runtime_safe') THEN
+     AND EXISTS (SELECT 1 FROM pg_catalog.pg_roles WHERE rolname = 'wa_app_runtime_safe')
+     AND NOT pg_catalog.pg_has_role('wa_app_runtime_safe', 'neon_superuser', 'MEMBER') THEN
     GRANT wa_app_runtime_safe TO wa_webhook_runtime WITH INHERIT FALSE;
     GRANT USAGE ON SCHEMA public, app_private TO wa_app_runtime_safe;
     GRANT EXECUTE ON FUNCTION app_private.resolve_whatsapp_channel(text) TO wa_app_runtime_safe;
