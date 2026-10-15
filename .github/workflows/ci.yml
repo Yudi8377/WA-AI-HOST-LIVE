@@ -45,6 +45,8 @@ jobs:
         run: npm run check:aptinusa-growth-catalog
       - name: Aptinusa marketing policy tests
         run: npm run test:aptinusa-marketing-policy
+      - name: Aptinusa marketing ledger migration checks
+        run: npm run check:aptinusa-marketing-migration
       - name: Rental knowledge and response regression tests
         run: npm run check:rental-knowledge
       - name: Inbox triage category and priority regression tests
