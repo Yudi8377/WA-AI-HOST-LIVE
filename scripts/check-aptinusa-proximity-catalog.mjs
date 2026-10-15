@@ -11,14 +11,14 @@ assert.equal(catalog.pricingStatus, "proposal");
 assert.ok(Array.isArray(catalog.modules) && catalog.modules.length >= 4);
 
 const ids = new Set();
-for (const module of catalog.modules) {
-  assert.ok(module.id && !ids.has(module.id), `missing/duplicate module id: ${module.id}`);
-  ids.add(module.id);
-  assert.ok(allowed.has(module.status), `invalid status for ${module.id}`);
-  assert.equal(module.liveMessagingEnabled, false, `live messaging must remain disabled: ${module.id}`);
-  assert.equal(module.consentRequiredForMessaging, true, `messaging must require consent: ${module.id}`);
-  if (module.status === "approval_required") {
-    assert.equal(module.externalCosts, true, `external costs must be disclosed: ${module.id}`);
+for (const item of catalog.modules) {
+  assert.ok(item.id && !ids.has(item.id), `missing/duplicate module id: ${item.id}`);
+  ids.add(item.id);
+  assert.ok(allowed.has(item.status), `invalid status for ${item.id}`);
+  assert.equal(item.liveMessagingEnabled, false, `live messaging must remain disabled: ${item.id}`);
+  assert.equal(item.consentRequiredForMessaging, true, `messaging must require consent: ${item.id}`);
+  if (item.status === "approval_required") {
+    assert.equal(item.externalCosts, true, `external costs must be disclosed: ${item.id}`);
   }
 }
 assert.equal(catalog.safetyDefaults.liveMessagingEnabled, false);
