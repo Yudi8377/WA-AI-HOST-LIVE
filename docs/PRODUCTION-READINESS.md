@@ -1,38 +1,45 @@
-# Production Readiness Gate — WA AI HOST LIVE
+# Production Readiness Gate — WA AI HOST LIVE / Aptinusa
 
-Last checked: 2026-10-14
+Last checked: 2026-10-15
 
-## Confirmed
-- GitHub Actions quality checks pass for the current main-branch implementation.
-- Neon production branch: `br-shy-queen-b3e1ch9j`; database: `neondb`.
-- The production database contains the 12 core application tables. RLS is enabled on every public application table and forced on all tenant-owned tables. `app_users` uses enabled-but-not-forced RLS for trusted server-side identity provisioning.
-- Production Neon Auth is provisioned with Better Auth. The trusted origin `https://yudi8377.github.io` has been added.
-- A production Neon health function is deployed at https://br-shy-queen-b3e1ch9j-health.compute.c-4.ap-southeast-1.aws.neon.tech/ . Its deployment status is `completed`; Neon logs show function invocation begin/end. The endpoint reports `status: degraded` intentionally while customer-facing runtime dependencies are missing.
-- The public frontend's Next.js build succeeds and its GitHub Actions workflow can build/upload a static artifact.
+## Verified progress
 
-## Confirmed production blockers
-1. **Public website:** GitHub Pages is not yet confirmed published. The repository deployment workflow only performs the Pages deployment when repository Actions variable `PAGES_ENABLED=true` is set. The connected GitHub integration cannot change repository-level Pages/Actions settings. The repository owner must select **Settings → Pages → GitHub Actions** and set that variable.
-2. **Runtime database identity:** the checked runtime-role set contains only `neondb_owner`, which has `BYPASSRLS`. A dedicated least-privilege `wa_app_runtime` role was not found. Do not use the owner role for customer-facing application requests.
-3. **Authentication policy:** Better Auth is provisioned, but email/password sign-up currently does not require email verification. Google OAuth is listed without visible client ID/secret and must not be advertised as operational.
-4. **Protected application APIs:** `GET /api/v1/conversations` remains a static placeholder returning `RUNTIME_API_NOT_CONFIGURED`. No authenticated conversation/message read/write API is live.
-5. **Official messaging connectors:** WhatsApp, TikTok, Facebook, Instagram and Shopee are not connected for live message processing.
-6. **Subscriptions:** subscription-entitlements migration remains review-only. Its RLS policies, least-privilege grants, effective entitlement enforcement, and signed/idempotent billing webhook handling must be tested before applying it.
-7. **End-to-end validation:** customer sign-in, tenant isolation, live messaging, payment, and browser flows have not passed production end-to-end testing.
+- Main branch commit after the marketing consent ledger: `957e878337444640c08d677f20b37e5e7e203f5d`; Quality checks run [38689348652](https://github.com/Yudi8377/WA-AI-HOST-LIVE/actions/runs/38689348652): **success**.
+- GitHub Pages workflow [38689348722](https://github.com/Yudi8377/WA-AI-HOST-LIVE/actions/runs/38689348722): static build and deployment jobs **success**. This verifies the Actions deployment, not a separate browser-based customer journey.
+- Delivery ZIP build [38689348695](https://github.com/Yudi8377/WA-AI-HOST-LIVE/actions/runs/38689348695): **success**.
+- Aptinusa dry-run queue PR [#34](https://github.com/Yudi8377/WA-AI-HOST-LIVE/pull/34) merged. Its Quality checks run [38691109752](https://github.com/Yudi8377/WA-AI-HOST-LIVE/actions/runs/38691109752): **success**. The queue contract is preview-only and never persists, queues, or sends messages.
+- Marketing consent ledger migration `0006_aptinusa_marketing_consent_ledger.sql` was applied **only to the Neon development branch** `br-quiet-lake-b3f99jd3` in project `morning-field-24942730`. Verified all five marketing tables have RLS enabled, FORCE RLS enabled, and one tenant policy each. The campaign table enforces `live_delivery_enabled = false`.
+- The migration has **not** been applied to the production branch `br-shy-queen-b3e1ch9j`.
 
-## Next steps
-- Enable GitHub Pages in repository settings and set `PAGES_ENABLED=true`.
-- Configure a verified production sign-in policy and trusted sender; do not enable unverified production account flows for real customers.
-- Create a dedicated no-`BYPASSRLS` runtime database role and store credentials only in server runtime secrets.
-- Implement Better Auth session verification, identity mapping, membership/role checks, transaction-scoped `app.tenant_id`, audit logs and protected conversation/message APIs.
-- Run cross-tenant isolation tests on a disposable branch using the non-owner runtime role.
-- Complete and test subscription entitlements and each official channel connector separately; never claim an integration is live before its provider credentials and end-to-end tests pass.
+## Confirmed blockers before commercial customer onboarding
 
-## Latest CI verification — 2026-10-14
+1. **Public browser journey:** the GitHub Pages deployment workflow succeeded, but a full browser/device smoke test of navigation, forms, accessibility, and mobile layouts is still outstanding.
+2. **Backend hosting:** GitHub Pages serves static assets and cannot execute the Next.js server APIs. A linked production server runtime is not currently verified. The Vercel connection reports no available teams; do not claim the backend is deployed.
+3. **Protected customer APIs:** `GET /api/v1/conversations` remains a placeholder returning `RUNTIME_API_NOT_CONFIGURED`. Authenticated conversation/message read/write routes and authorization tests are not production-ready.
+4. **Database credentials and roles:** the production role inventory shows `neondb_owner` with `BYPASSRLS`, and `wa_webhook_runtime` with `BYPASSRLS`, role/database creation privileges, and membership in `neon_superuser`. `wa_app_runtime_safe` has safe role flags but cannot log in and has no grants on the new marketing tables. Do not use `neondb_owner` or `wa_webhook_runtime` for customer-facing requests. A dedicated least-privilege runtime identity, scoped grants, secret storage, and cross-tenant tests are still required.
+5. **Authentication policy:** Better Auth is provisioned, but email/password sign-up has not been verified to require email verification. Google OAuth is not confirmed operational because client credentials were not verified.
+6. **Official channels:** WhatsApp, TikTok, Facebook, Instagram, and Shopee have not passed provider-authorized end-to-end messaging tests. Live webhook and delivery remain disabled.
+7. **Subscriptions and payments:** subscription entitlement enforcement, a verified payment provider, signed/idempotent billing webhooks, cancellation/refund paths, and billing reconciliation have not passed end-to-end tests.
+8. **Operational readiness:** browser/device QA, load testing, backup restoration, incident alerts, retention/deletion flows, and independent security review remain outstanding.
 
-- Commit: `b4d7f675cbb116d64a36e777f165f68ebb29214e`.
-- Quality Checks run [38522234015](https://github.com/Yudi8377/WA-AI-HOST-LIVE/actions/runs/38522234015): **success**. Production dependency audit, migration security checks, AI agent network security tests, health-function contract tests, typecheck, lint and build passed.
-- Pages workflow run [38522234030](https://github.com/Yudi8377/WA-AI-HOST-LIVE/actions/runs/38522234030): build, lint and typecheck **success**; publishing gate step passed but the actual Pages enablement and deployment steps were **skipped** because `PAGES_ENABLED` is not set to `true`. Therefore this run does not mean the public website is live.
-- Delivery ZIP workflow run [38522234027](https://github.com/Yudi8377/WA-AI-HOST-LIVE/actions/runs/38522234027): **success**; source, phase workpack, customer deployment and checksum artifacts were generated from the same commit. Artifacts expire after 30 days.
+## Safety decisions
+
+- Do not enable real SMS/WhatsApp/email delivery based only on static CI or the dry-run queue contract.
+- Keep customer marketing destinations encrypted in application code; use a keyed HMAC for lookup hashes. Never log raw destinations, access tokens, or message bodies.
+- Re-check tenant membership, current purpose/channel-specific consent, revocation, suppression, provider authorization, campaign approval, spend cap, quiet hours, frequency cap, and idempotency immediately before a real delivery.
+- Apply schema changes to a development branch first, run RLS tests as a non-owner `NOBYPASSRLS` runtime role, and only then prepare a reviewed production migration.
+- Do not advertise integrations, payments, authentication methods, or live delivery until verified end-to-end.
+
+## Next execution sequence
+
+1. Secure a real server runtime connected to the repository and verify its production deployment and environment-secret controls.
+2. Implement session verification, tenant membership/role authorization, transaction-scoped tenant context, and protected conversation/message APIs.
+3. Provision a dedicated least-privilege database role with no `BYPASSRLS`, no role/database creation, only required table/function grants, and credentials stored only in the server runtime secret manager.
+4. Add cross-tenant RLS and auth integration tests; do not use owner credentials in application requests.
+5. Connect one official channel at a time using provider sandbox credentials, signed webhook verification, opt-out handling, idempotent delivery events, and spend/rate limits.
+6. Integrate subscription entitlements and a payment provider, then test checkout, renewals, failed payments, cancellations, refunds, and webhook replay.
+7. Complete end-to-end QA, recovery, monitoring, and security review before onboarding paying customers.
 
 ## Honest status
-**Production health endpoint deployed; application is not yet ready for real customers.** The health endpoint reports degraded readiness by design. The public Pages deployment, protected customer APIs, verified sign-in policy, least-privilege runtime DB access, subscription enforcement, and live channel connectors remain outstanding. Do not onboard customers or process real customer messages yet.
+
+**The static build/deployment pipeline and the marketing-ledger development migration are verified. WA AI HOST LIVE / Aptinusa is not yet verified as a commercially live full-stack service.** The protected API, least-privilege production runtime identity, provider credentials, payment integration, and full end-to-end tests are material blockers.
