@@ -39,6 +39,8 @@ jobs:
         run: npm run check:whatsapp-runtime
       - name: Runtime environment preflight self-tests
         run: npm run check:runtime-preflight
+      - name: Aptinusa Growth catalog safety checks
+        run: npm run check:aptinusa-growth-catalog
       - name: Rental knowledge and response regression tests
         run: npm run check:rental-knowledge
       - name: Inbox triage category and priority regression tests
