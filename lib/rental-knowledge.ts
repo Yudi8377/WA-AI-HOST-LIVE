@@ -94,6 +94,8 @@ export function classifyRentalIntent(raw:string){
  if(/\b(batal|pembatalan|refund|uang kembali|pengembalian dana|cancel)\b/.test(m))return "cancel";
  if(/\b(booking|reservasi|pesan mobil)\b/.test(m))return "booking";
  if(/sopir terlambat|driver terlambat|sopir tidak datang|pengemudi kasar|sopir ugal|driver ugal/.test(m))return "driver_issue";
+ if(/bandara|juanda|airport|penerbangan|flight/.test(m))return "airport";
+ if(/sopir|driver|pengemudi/.test(m)&&!detectCar(raw))return "driver";
  const priority:Record<string,string[]>={incident:["kecelakaan","tabrak","korban","cedera","kebakaran","darurat"],breakdown:["mogok","rem blong","ban pecah","ban bocor","overheat","mesin mati"],complaint:["komplain","kecewa","tidak puas","keluhan","sopir kasar"],fraud:["penipuan","rekening pribadi","otp","pin","akun palsu"],unsafe:["balap liar","kabur polisi","menyelundup","dokumen palsu","palsukan sim"]};
  for(const [intent,words] of Object.entries(priority))if(words.some(w=>m.includes(normalize(w))))return intent;
  const scored=localRentalKnowledge.map(k=>({k,score:k.keywords.reduce((n,w)=>n+(m.includes(normalize(w))?Math.max(1,normalize(w).split(" ").length):0),0)})).sort((a,b)=>b.score-a.score);
