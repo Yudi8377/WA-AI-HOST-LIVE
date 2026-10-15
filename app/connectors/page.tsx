@@ -1,5 +1,6 @@
 import { ArrowRightLeft, Plug, ShieldCheck, ShoppingCart, Workflow, Globe2, Store, MessagesSquare, CircleCheck, Clock3 } from "lucide-react";
 import { PortalShell, SectionHeading, FeatureCard } from "../components/PortalShell";
+import ConnectorDirectory from "./ConnectorDirectory";
 
 export const metadata = {
   title: "Katalog Integrasi Marketplace | Aptinusa",
@@ -63,11 +64,7 @@ export default function Connectors() {
     <div className="apt-card-grid">{capabilityGroups.map((item)=> <FeatureCard key={item.title} icon={<Workflow size={20}/>} title={item.title}>{item.copy}</FeatureCard>)}</div>
     <h2 className="apt-section-title">Daftar konektor dan kesiapan</h2>
     <p className="apt-section-copy">Total inventaris: <b>{connectors.length} konektor/kelompok integrasi</b> dalam {groups.length} kategori. Status di bawah adalah status perencanaan sampai koneksi resmi benar-benar diuji.</p>
-    <div className="apt-connector-list">{connectors.map((c)=><article className="apt-connector" key={c.name}>
-      <div className="apt-connector-icon">{c.category==="Platform toko online"?<Store size={19}/>:c.category==="Pesan pelanggan"?<MessagesSquare size={19}/>:<ShoppingCart size={19}/>}</div>
-      <div className="apt-connector-main"><b>{c.name}</b><p>{c.scope}</p><small><b>Akses:</b> {c.access}</small></div>
-      <span className="apt-status-chip">{statusLabel(c.status)}</span>
-    </article>)}</div>
+    <ConnectorDirectory connectors={connectors} />
     <h2 className="apt-section-title">Gerbang wajib sebelum konektor dinyatakan aktif</h2>
     <div className="apt-card-grid">
       <FeatureCard icon={<CircleCheck size={20}/>} title="Akses dan izin">Aplikasi disetujui, otorisasi penjual valid, scope minimum, wilayah didukung, serta proses pencabutan teruji.</FeatureCard>
