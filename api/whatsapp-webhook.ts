@@ -50,8 +50,8 @@ function database() {
 
 async function enforceSafeDatabaseRole(tx: TransactionSql) {
   await tx`SET LOCAL ROLE wa_app_runtime_safe`;
-  const rows = await tx`select current_user as role, (select rolbypassrls from pg_roles where rolname = current_user) as bypass_rls`;
-  if (rows.length !== 1 || rows[0].role !== "wa_app_runtime_safe" || rows[0].bypass_rls !== false) {
+  const rows = await tx`select current_user as role, (select rolbypassrls from pg_roles where rolname = current_user) as bypass_rls, pg_has_role(current_user, 'neon_superuser', 'MEMBER') as can_escalate`;
+  if (rows.length !== 1 || rows[0].role !== "wa_app_runtime_safe" || rows[0].bypass_rls !== false || rows[0].can_escalate === true) {
     throw new Error("UNSAFE_DATABASE_ROLE");
   }
 }
