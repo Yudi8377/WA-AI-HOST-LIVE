@@ -15,8 +15,8 @@ for (const contract of [
   "leastPrivilegeRole",
 ]) assert.ok(source.includes(contract), `missing runtime health contract: ${contract}`);
 
-assert.ok(source.includes("res.statusCode = 503"), "readiness failures must return 503");
-assert.ok(source.includes("res.statusCode = 405"), "unsupported methods must be rejected");
+assert.ok(source.includes("return respond(res, 503"), "readiness failures must return 503");
+assert.ok(source.includes("return respond(res, 405"), "unsupported methods must be rejected");
 assert.ok(source.includes("catch {"), "errors must be handled without leaking details");
 assert.ok(!source.includes("console.log("), "health endpoint must not log sensitive diagnostics");
 console.log("Runtime health readiness contract passed.");
