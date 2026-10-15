@@ -42,9 +42,10 @@ if(/perusahaan|korporat|bulanan|sebulan|5 mobil|armada/.test(m))return "corporat
 if(/batal|pembatalan|refund|uang kembali|pengembalian dana/.test(m))return "cancel";
 if(/booking|pesan mobil|reservasi|pesan untuk tanggal/.test(m))return "booking";
 if(/qris|transfer|bayar|pembayaran|kartu kredit/.test(m))return "payment";
-if(/diskon|promo|potongan|murah/.test(m))return "discount";
+if(/diskon|promo|potongan/.test(m))return "discount";
 if(/bensin|bbm|bahan bakar|solar|pertalite/.test(m))return "fuel";
 if(/lepas kunci|tanpa sopir|self.?drive/.test(m))return "selfdrive";
+if(/pernikahan|wedding|acara|resepsi/.test(m))return "event";
 if(/sopir|driver|pengemudi/.test(m))return "driver";
 if(/bandara|juanda|penerbangan|airport/.test(m))return "airport";
 if(/stasiun|jemput|antar jemput|pick.?up|drop.?off/.test(m))return "pickup";
