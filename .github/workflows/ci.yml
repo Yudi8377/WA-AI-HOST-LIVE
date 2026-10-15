@@ -39,6 +39,8 @@ jobs:
         run: npm run check:whatsapp-runtime
       - name: Rental knowledge and response regression tests
         run: npm run check:rental-knowledge
+      - name: Inbox triage category and priority regression tests
+        run: npm run check:inbox-triage
       - name: Typecheck
         run: npm run typecheck
       - name: Lint
