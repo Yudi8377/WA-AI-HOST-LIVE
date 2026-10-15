@@ -1,6 +1,6 @@
 "use client";
 import { useMemo, useState } from "react";
-import { answerRentalMessage, localRentalKnowledge, rentalCases, rentalFleet, type RentalCase } from "@/lib/rental-knowledge";
+import { answerRentalMessage, rentalCases, type RentalCase } from "@/lib/rental-knowledge";
 import { Activity, ArrowUpRight, Bot, Check, ChevronDown, CircleHelp, Headphones, LayoutDashboard, Menu, MessageCircle, MoreHorizontal, Package, Radio, Search, Send, Settings2, ShieldCheck, ShoppingBag, Sparkles, Users, X, Zap } from "lucide-react";
 
 type Msg={from:"customer"|"ai"|"agent";text:string;time:string};
