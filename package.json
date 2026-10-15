@@ -18,7 +18,8 @@
     "check:inbox-triage": "node scripts/test-inbox-triage.mjs",
     "check:runtime-preflight": "node scripts/check-runtime-preflight.mjs --self-test",
     "check:aptinusa-proximity-catalog": "node scripts/check-aptinusa-proximity-catalog.mjs",
-    "check:aptinusa-growth-catalog": "node scripts/check-aptinusa-growth-catalog.mjs"
+    "check:aptinusa-growth-catalog": "node scripts/check-aptinusa-growth-catalog.mjs",
+    "test:aptinusa-marketing-policy": "node scripts/test-aptinusa-marketing-policy.mjs"
   },
   "dependencies": {
     "next": "^16.4.0",
