@@ -37,6 +37,8 @@ jobs:
         run: npm run check:whatsapp-migration
       - name: WhatsApp webhook runtime security contracts
         run: npm run check:whatsapp-runtime
+      - name: Rental knowledge and response regression tests
+        run: npm run check:rental-knowledge
       - name: Typecheck
         run: npm run typecheck
       - name: Lint
