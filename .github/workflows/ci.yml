@@ -39,6 +39,8 @@ jobs:
         run: npm run check:whatsapp-runtime
       - name: Runtime environment preflight self-tests
         run: npm run check:runtime-preflight
+      - name: Serverless runtime health safety contract
+        run: npm run check:runtime-health-contract
       - name: Aptinusa proximity marketing catalog safety checks
         run: npm run check:aptinusa-proximity-catalog
       - name: Aptinusa Growth Engine catalog safety checks
