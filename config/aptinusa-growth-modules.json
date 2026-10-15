@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "product": "Aptinusa Growth Engine",
+  "currency": "IDR",
+  "pricingStatus": "proposal",
+  "modules": [
+    {
+      "id": "business-profile-catalog",
+      "name": "Profil Usaha & Katalog Publik",
+      "category": "presence",
+      "status": "planned",
+      "billing": { "includedIn": ["mikro", "growth", "omnichannel", "business"] },
+      "externalCosts": false,
+      "requiresExplicitApprovalForExternalAction": true
+    },
+    {
+      "id": "seo-foundation",
+      "name": "Fondasi SEO",
+      "category": "discovery",
+      "status": "planned",
+      "billing": { "includedIn": ["mikro", "growth", "omnichannel", "business"] },
+      "externalCosts": false,
+      "requiresExplicitApprovalForExternalAction": true
+    },
+    {
+      "id": "ai-content-studio",
+      "name": "AI Content Studio",
+      "category": "content",
+      "status": "planned",
+      "billing": { "includedIn": ["growth", "omnichannel", "business"], "usageQuotaRequired": true },
+      "externalCosts": true,
+      "requiresExplicitApprovalForExternalAction": true
+    },
+    {
+      "id": "crm-consent",
+      "name": "CRM & Persetujuan Pemasaran",
+      "category": "crm",
+      "status": "planned",
+      "billing": { "includedIn": ["growth", "omnichannel", "business"] },
+      "externalCosts": false,
+      "requiresExplicitApprovalForExternalAction": true
+    },
+    {
+      "id": "whatsapp-campaigns",
+      "name": "Kampanye WhatsApp Resmi",
+      "category": "messaging",
+      "status": "approval_required",
+      "billing": { "includedIn": ["omnichannel", "business"], "usageQuotaRequired": true },
+      "externalCosts": true,
+      "requiresExplicitApprovalForExternalAction": true
+    },
+    {
+      "id": "sms-campaigns",
+      "name": "Kampanye SMS",
+      "category": "messaging",
+      "status": "approval_required",
+      "billing": { "includedIn": ["omnichannel", "business"], "usageQuotaRequired": true },
+      "externalCosts": true,
+      "requiresExplicitApprovalForExternalAction": true
+    },
+    {
+      "id": "email-campaigns",
+      "name": "Kampanye Email",
+      "category": "messaging",
+      "status": "approval_required",
+      "billing": { "includedIn": ["growth", "omnichannel", "business"], "usageQuotaRequired": true },
+      "externalCosts": true,
+      "requiresExplicitApprovalForExternalAction": true
+    },
+    {
+      "id": "loyalty-referral",
+      "name": "Loyalitas & Referral",
+      "category": "retention",
+      "status": "planned",
+      "billing": { "includedIn": ["growth", "omnichannel", "business"] },
+      "externalCosts": false,
+      "requiresExplicitApprovalForExternalAction": true
+    },
+    {
+      "id": "growth-analytics",
+      "name": "Analitik Pertumbuhan",
+      "category": "analytics",
+      "status": "planned",
+      "billing": { "includedIn": ["growth", "omnichannel", "business"] },
+      "externalCosts": false,
+      "requiresExplicitApprovalForExternalAction": true
+    }
+  ],
+  "plans": [
+    { "id": "mikro", "name": "Mikro", "monthlyPriceIdr": 99000, "priceStatus": "proposal" },
+    { "id": "growth", "name": "Growth", "monthlyPriceIdr": 249000, "priceStatus": "proposal" },
+    { "id": "omnichannel", "name": "Omnichannel", "monthlyPriceIdr": 499000, "priceStatus": "proposal" },
+    { "id": "business", "name": "Business", "monthlyPriceIdr": null, "priceStatus": "proposal", "startingPriceIdr": 999000 }
+  ],
+  "safetyDefaults": {
+    "liveMessagingEnabled": false,
+    "requireTenantScopedConsent": true,
+    "requireOptOutSuppressionCheck": true,
+    "requireHumanApprovalForCampaignSend": true,
+    "seoRankingGuarantee": false,
+    "crossTenantContactReuse": false
+  }
+}
