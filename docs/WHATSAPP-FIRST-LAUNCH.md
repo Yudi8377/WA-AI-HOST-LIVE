@@ -50,3 +50,21 @@ A real launch requires a Meta Business Portfolio, a WhatsApp Business Account an
 - [ ] Out-of-window free-form reply is blocked; approved template path tested separately.
 - [ ] Tenant isolation, opt-out, rate limiting, retries and incident rollback tested.
 - [ ] Privacy, support, pricing and customer onboarding materials approved.
+
+## Webhook runtime implementation
+
+A serverless Node handler now lives at `api/whatsapp-webhook.ts` for a Node-capable deployment. It is intentionally disabled unless `WHATSAPP_WEBHOOK_ENABLED=true`; GitHub Pages remains a static frontend and does not execute this handler. The handler:
+
+- checks the Meta signature before parsing JSON and limits request bodies to 1 MiB;
+- resolves the phone-number ID through a server-side database function, requiring exactly one connected tenant mapping;
+- persists inbound messages, customer/conversation links, service-window timestamps and privacy-minimized audit events in a transaction;
+- uses provider-event idempotency and returns generic errors without logging payloads;
+- acknowledges unknown/unconnected phone IDs without storing customer content.
+
+The database runtime credential must be dedicated and least-privileged. Before enabling this endpoint, verify the selected Neon role does not bypass RLS, verify all grants/policies with that exact role, and test cross-tenant isolation. If the role cannot satisfy those conditions, do not enable the webhook until a suitable runtime credential is provisioned.
+
+## Development database verification (2026-10-15)
+
+On the Neon development branch, the additive WhatsApp preferences table is present with both RLS and FORCE RLS enabled. The channel resolver and grants were applied. A query executed as the dedicated login role after `SET LOCAL ROLE wa_app_runtime_safe` confirmed the effective role has `rolbypassrls=false` and sees zero customer rows when no tenant context is set. On the production branch, the customer-preference table and RLS policy are present, and the resolver plus grants were applied using a NOLOGIN/NOBYPASSRLS role and a dedicated login role. A live SQL check confirmed that after switching to the safe role, the effective role has `rolbypassrls=false`, cannot escalate to `neon_superuser`, and sees zero customer rows without tenant context. The webhook remains disabled and is not yet deployed to a public Node runtime.
+
+The migration expects the pre-provisioned `wa_app_runtime_safe` NOLOGIN/NOBYPASSRLS role and a `wa_webhook_runtime` login role. Provision and test both on the intended branch before running the migration; every transaction must switch to the safe role before touching application tables.

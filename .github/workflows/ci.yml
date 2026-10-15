@@ -35,6 +35,8 @@ jobs:
         run: npm run check:whatsapp-adapter
       - name: WhatsApp consent migration security checks
         run: npm run check:whatsapp-migration
+      - name: WhatsApp webhook runtime security contracts
+        run: npm run check:whatsapp-runtime
       - name: Typecheck
         run: npm run typecheck
       - name: Lint
