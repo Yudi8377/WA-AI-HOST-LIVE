@@ -1,4 +1,3 @@
-import { createServer } from "node:http";
 import postgres from "postgres";
 import type { IncomingMessage, ServerResponse } from "node:http";
 
