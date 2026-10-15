@@ -15,7 +15,8 @@
     "check:whatsapp-migration": "node scripts/check-whatsapp-migration.mjs",
     "check:whatsapp-runtime": "node scripts/check-whatsapp-runtime.mjs",
     "check:rental-knowledge": "node scripts/check-rental-knowledge.mjs && node scripts/test-rental-knowledge-runtime.mjs",
-    "check:inbox-triage": "node scripts/test-inbox-triage.mjs"
+    "check:inbox-triage": "node scripts/test-inbox-triage.mjs",
+    "check:runtime-preflight": "node scripts/check-runtime-preflight.mjs --self-test"
   },
   "dependencies": {
     "next": "^16.4.0",
