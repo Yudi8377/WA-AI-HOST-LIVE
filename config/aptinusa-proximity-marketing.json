@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "product": "Aptinusa Proximity Marketing",
+  "status": "planned",
+  "pricingStatus": "proposal",
+  "modules": [
+    {
+      "id": "local-offers-qr",
+      "name": "Halaman Penawaran & QR",
+      "status": "planned",
+      "liveMessagingEnabled": false,
+      "externalCosts": false,
+      "consentRequiredForViewing": false,
+      "consentRequiredForMessaging": true
+    },
+    {
+      "id": "consent-crm",
+      "name": "CRM dan Persetujuan Kanal",
+      "status": "planned",
+      "liveMessagingEnabled": false,
+      "externalCosts": false,
+      "consentRequiredForViewing": false,
+      "consentRequiredForMessaging": true
+    },
+    {
+      "id": "sms-gateway",
+      "name": "SMS Gateway",
+      "status": "approval_required",
+      "liveMessagingEnabled": false,
+      "externalCosts": true,
+      "consentRequiredForViewing": false,
+      "consentRequiredForMessaging": true
+    },
+    {
+      "id": "whatsapp-campaigns",
+      "name": "Kampanye WhatsApp Resmi",
+      "status": "approval_required",
+      "liveMessagingEnabled": false,
+      "externalCosts": true,
+      "consentRequiredForViewing": false,
+      "consentRequiredForMessaging": true
+    },
+    {
+      "id": "ble-proximity-app",
+      "name": "Deteksi Beacon di Aplikasi",
+      "status": "planned",
+      "liveMessagingEnabled": false,
+      "externalCosts": true,
+      "consentRequiredForViewing": true,
+      "consentRequiredForMessaging": true
+    },
+    {
+      "id": "location-ads",
+      "name": "Iklan Berbasis Lokasi",
+      "status": "approval_required",
+      "liveMessagingEnabled": false,
+      "externalCosts": true,
+      "consentRequiredForViewing": false,
+      "consentRequiredForMessaging": true
+    }
+  ],
+  "safetyDefaults": {
+    "liveMessagingEnabled": false,
+    "requireExplicitChannelConsent": true,
+    "requirePurposeSpecificConsent": true,
+    "requireSuppressionCheck": true,
+    "requireHumanApprovalForCampaignSend": true,
+    "allowPassivePhoneNumberDiscovery": false,
+    "allowCrossTenantContactReuse": false,
+    "allowUnsolicitedProximityMessages": false
+  }
+}
