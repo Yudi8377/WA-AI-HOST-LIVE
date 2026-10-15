@@ -7,6 +7,14 @@ BEGIN;
 CREATE SCHEMA IF NOT EXISTS app_private;
 REVOKE ALL ON SCHEMA app_private FROM PUBLIC;
 
+CREATE OR REPLACE FUNCTION public.app_current_tenant_id()
+RETURNS uuid
+LANGUAGE sql
+STABLE
+AS $tenant$
+  SELECT NULLIF(current_setting('app.tenant_id', true), '')::uuid
+$tenant$;
+
 CREATE OR REPLACE FUNCTION app_private.resolve_whatsapp_channel(p_phone_number_id text)
 RETURNS TABLE (tenant_id uuid, channel_connection_id uuid)
 LANGUAGE sql
