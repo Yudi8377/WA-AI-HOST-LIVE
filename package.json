@@ -16,7 +16,8 @@
     "check:whatsapp-runtime": "node scripts/check-whatsapp-runtime.mjs",
     "check:rental-knowledge": "node scripts/check-rental-knowledge.mjs && node scripts/test-rental-knowledge-runtime.mjs",
     "check:inbox-triage": "node scripts/test-inbox-triage.mjs",
-    "check:runtime-preflight": "node scripts/check-runtime-preflight.mjs --self-test"
+    "check:runtime-preflight": "node scripts/check-runtime-preflight.mjs --self-test",
+    "check:aptinusa-growth-catalog": "node scripts/check-aptinusa-growth-catalog.mjs"
   },
   "dependencies": {
     "next": "^16.4.0",
