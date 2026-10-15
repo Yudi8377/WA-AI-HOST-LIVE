@@ -41,6 +41,8 @@ jobs:
         run: npm run check:runtime-preflight
       - name: Aptinusa proximity marketing catalog safety checks
         run: npm run check:aptinusa-proximity-catalog
+      - name: Aptinusa Growth Engine catalog safety checks
+        run: npm run check:aptinusa-growth-catalog
       - name: Rental knowledge and response regression tests
         run: npm run check:rental-knowledge
       - name: Inbox triage category and priority regression tests
