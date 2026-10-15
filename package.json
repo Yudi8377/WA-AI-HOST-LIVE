@@ -14,7 +14,7 @@
     "check:whatsapp-adapter": "node scripts/test-whatsapp-adapter.mjs",
     "check:whatsapp-migration": "node scripts/check-whatsapp-migration.mjs",
     "check:whatsapp-runtime": "node scripts/check-whatsapp-runtime.mjs",
-    "check:rental-knowledge": "node scripts/check-rental-knowledge.mjs"
+    "check:rental-knowledge": "node scripts/check-rental-knowledge.mjs && node scripts/test-rental-knowledge-runtime.mjs"
   },
   "dependencies": {
     "next": "^16.4.0",
