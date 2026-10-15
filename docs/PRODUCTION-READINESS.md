@@ -5,6 +5,7 @@ Last checked: 2026-10-15
 ## Verified progress
 
 - Main branch commit after the marketing consent ledger: `957e878337444640c08d677f20b37e5e7e203f5d`; Quality checks run [38689348652](https://github.com/Yudi8377/WA-AI-HOST-LIVE/actions/runs/38689348652): **success**.
+- Latest readiness documentation commit `98de8201c68482a12c0395862f88ddf58905609f`: Quality checks [38692055157](https://github.com/Yudi8377/WA-AI-HOST-LIVE/actions/runs/38692055157), GitHub Pages [38692055154](https://github.com/Yudi8377/WA-AI-HOST-LIVE/actions/runs/38692055154), and delivery ZIP build [38692055146](https://github.com/Yudi8377/WA-AI-HOST-LIVE/actions/runs/38692055146) all **success**.
 - GitHub Pages workflow [38689348722](https://github.com/Yudi8377/WA-AI-HOST-LIVE/actions/runs/38689348722): static build and deployment jobs **success**. This verifies the Actions deployment, not a separate browser-based customer journey.
 - Delivery ZIP build [38689348695](https://github.com/Yudi8377/WA-AI-HOST-LIVE/actions/runs/38689348695): **success**.
 - Aptinusa dry-run queue PR [#34](https://github.com/Yudi8377/WA-AI-HOST-LIVE/pull/34) merged. Its Quality checks run [38691109752](https://github.com/Yudi8377/WA-AI-HOST-LIVE/actions/runs/38691109752): **success**. The queue contract is preview-only and never persists, queues, or sends messages.
@@ -14,7 +15,7 @@ Last checked: 2026-10-15
 ## Confirmed blockers before commercial customer onboarding
 
 1. **Public browser journey:** the GitHub Pages deployment workflow succeeded, but a full browser/device smoke test of navigation, forms, accessibility, and mobile layouts is still outstanding.
-2. **Backend hosting:** GitHub Pages serves static assets and cannot execute the Next.js server APIs. A linked production server runtime is not currently verified. The Vercel connection reports no available teams; do not claim the backend is deployed.
+2. **Backend hosting:** GitHub Pages serves static assets and cannot execute the Next.js server APIs. A linked production server runtime is not currently verified. Vercel lists a project named `wa-ai-host-live-api`, but attempts to inspect or link it fail with HTTP 403 because the connected Vercel credentials are scoped to `panaungan22-1077` and cannot access team `team_D0yE5EyxQScmAbZaq6aKZY2G`. Re-authentication with the owning Vercel team or a token authorized for that team is required; do not claim the backend is deployed.
 3. **Protected customer APIs:** `GET /api/v1/conversations` remains a placeholder returning `RUNTIME_API_NOT_CONFIGURED`. Authenticated conversation/message read/write routes and authorization tests are not production-ready.
 4. **Database credentials and roles:** the production role inventory shows `neondb_owner` with `BYPASSRLS`, and `wa_webhook_runtime` with `BYPASSRLS`, role/database creation privileges, and membership in `neon_superuser`. `wa_app_runtime_safe` has safe role flags but cannot log in and has no grants on the new marketing tables. Do not use `neondb_owner` or `wa_webhook_runtime` for customer-facing requests. A dedicated least-privilege runtime identity, scoped grants, secret storage, and cross-tenant tests are still required.
 5. **Authentication policy:** Better Auth is provisioned, but email/password sign-up has not been verified to require email verification. Google OAuth is not confirmed operational because client credentials were not verified.
@@ -32,7 +33,7 @@ Last checked: 2026-10-15
 
 ## Next execution sequence
 
-1. Secure a real server runtime connected to the repository and verify its production deployment and environment-secret controls.
+1. Restore authorized Vercel access to the owning team, link `Yudi8377/WA-AI-HOST-LIVE` to the existing API project (or create it in the correct team), and verify a production deployment plus environment-secret controls.
 2. Implement session verification, tenant membership/role authorization, transaction-scoped tenant context, and protected conversation/message APIs.
 3. Provision a dedicated least-privilege database role with no `BYPASSRLS`, no role/database creation, only required table/function grants, and credentials stored only in the server runtime secret manager.
 4. Add cross-tenant RLS and auth integration tests; do not use owner credentials in application requests.
